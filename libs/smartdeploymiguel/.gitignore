@@ -1,0 +1,31 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Editor/IDE specific
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter and Python logs
+.ipynb_checkpoints
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# MLflow artifacts or tracking runs (if any)
+mlruns/
