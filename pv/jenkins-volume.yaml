@@ -4,19 +4,12 @@ metadata:
   name: jenkins-pv
   namespace: default
 spec:
-  storageClassName: local-storage
+  storageClassName: nfs-storage
   accessModes:
   - ReadWriteMany
   capacity:
     storage: 8Gi
   persistentVolumeReclaimPolicy: Retain
-  local:
-    path: /bitnami/jenkins/home
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - ${nodo1}  # ← nodo 1
+  nfs:
+    server: storagenfsmlops.privatelink.file.core.windows.net
+    path: /storagenfsmlops/nfs-share/bitnami/jenkins/home

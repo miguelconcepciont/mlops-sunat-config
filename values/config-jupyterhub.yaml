@@ -407,7 +407,7 @@ singleuser:
     capacity: 1Gi
     homeMountPath: /home/jovyan
     dynamic:
-      storageClass: local-path-jupyterhub
+      storageClass: nfs-csi-jupyterhub
       pvcNameTemplate: claim-{username}{servername}
       volumeNameTemplate: volume-{username}{servername}
       storageAccessModes: [ReadWriteOnce]
