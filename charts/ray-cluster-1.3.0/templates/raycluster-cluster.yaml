@@ -12,7 +12,7 @@ spec:
   rayVersion: {{ .Values.head.rayVersion }}
   {{- end }}
   {{- if .Values.gcsFaultToleranceOptions }}
-  gcsFaultToleranceOptions: {{ toYaml .Values.gcsFaultToleranceOptions | nindent 2 }}
+  gcsFaultToleranceOptions: {{ toYaml .Values.gcsFaultToleranceOptions | nindent 4   }}
   {{- end }}
   {{- if .Values.head.enableInTreeAutoscaling }}
   enableInTreeAutoscaling: {{ .Values.head.enableInTreeAutoscaling }}
