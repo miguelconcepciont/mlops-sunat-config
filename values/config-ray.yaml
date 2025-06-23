@@ -5,6 +5,11 @@
 # The KubeRay community welcomes PRs to expose additional configuration
 # in this Helm chart.
 
+gcsFaultToleranceOptions:
+  redisAddress: "redis-sunat-mlops.redis.cache.windows.net:6379"
+  redisPassword:
+    value: "munKsvptXrqVqTcLasiWztB4Pieg55blgAzCaMjbKNk="
+
 image:
   repository: miguelsff/ray
   tag: 2.41.0-py311-sunat
@@ -75,7 +80,7 @@ head:
     - name: AWS_SECRET_ACCESS_KEY
       value: "minio123"
     - name: RAY_REDIS_ADDRESS
-      value: redis-sunat-mlops.redis.cache.windows.net:6379
+      value: "redis-sunat-mlops.redis.cache.windows.net:6379"
     - name: REDIS_PASSWORD
       value: "munKsvptXrqVqTcLasiWztB4Pieg55blgAzCaMjbKNk="
   # - name: EXAMPLE_ENV
@@ -316,7 +321,3 @@ additionalWorkerGroups:
 service:
   # This is optional, and the default is ClusterIP.
   type: LoadBalancer
-annotations:
-  ray.io/gcs-ft-enabled: "true"
-  ray.io/external-redis-address: "redis-sunat-mlops.redis.cache.windows.net:6379"
-  ray.io/external-redis-password: "munKsvptXrqVqTcLasiWztB4Pieg55blgAzCaMjbKNk="
