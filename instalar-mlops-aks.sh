@@ -16,6 +16,7 @@ CRDS_DIR="crds"
 
 echo -e "${GREEN}Aplicando StorageClass...${NC}"
 kubectl apply -f "$STORAGECLASS_DIR/nfs-storage-sc.yaml"
+kubectl apply -f "$STORAGECLASS_DIR/nfs-csi-jupyterhub-sc.yaml"
 sleep 5
 
 echo -e "${GREEN}2. Creando PersistentVolumes (PV)...${NC}"

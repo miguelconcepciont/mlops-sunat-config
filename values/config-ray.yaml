@@ -60,6 +60,7 @@ head:
   rayStartParams:
     dashboard-host: '0.0.0.0'
     block: 'true'
+    redis-password: "munKsvptXrqVqTcLasiWztB4Pieg55blgAzCaMjbKNk="
   # containerEnv specifies environment variables for the Ray container,
   # Follows standard K8s container env schema.
   containerEnv:
@@ -73,6 +74,10 @@ head:
       value: "minio"
     - name: AWS_SECRET_ACCESS_KEY
       value: "minio123"
+    - name: RAY_REDIS_ADDRESS
+      value: redis-sunat-mlops.redis.cache.windows.net:6379
+    - name: REDIS_PASSWORD
+      value: "munKsvptXrqVqTcLasiWztB4Pieg55blgAzCaMjbKNk="
   # - name: EXAMPLE_ENV
   #   value: "1"
   envFrom: []
@@ -311,3 +316,7 @@ additionalWorkerGroups:
 service:
   # This is optional, and the default is ClusterIP.
   type: LoadBalancer
+annotations:
+  ray.io/gcs-ft-enabled: "true"
+  ray.io/external-redis-address: "redis-sunat-mlops.redis.cache.windows.net:6379"
+  ray.io/external-redis-password: "munKsvptXrqVqTcLasiWztB4Pieg55blgAzCaMjbKNk="
