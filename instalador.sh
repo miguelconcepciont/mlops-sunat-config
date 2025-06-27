@@ -45,14 +45,6 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 
 echo -e "${GREEN}1. Instalando NFS CSI Driver...${NC}"
-if [[ "$entorno" == *aks* ]]; then
-  entorno="AKS"
-else
-  entorno="SUNAT"
-  csiDriverNfs="csi-driver-nfs-4.11.0-sunat.tgz"
-fi
-
-
 helm upgrade csi-driver-nfs "charts/$csiDriverNfs" -n kube-system
 
 echo -e "${GREEN}2. Aplicando StorageClass...${NC}"
