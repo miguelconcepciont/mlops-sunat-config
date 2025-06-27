@@ -48,3 +48,4 @@ VARIABLE:redisHost|AKS:redis-sunat-mlops.redis.cache.windows.net:6379|SUNAT:172.
 VARIABLE:redisPassword|AKS:munKsvptXrqVqTcLasiWztB4Pieg55blgAzCaMjbKNk=|SUNAT:Sunat2025
 VARIABLE:csiDriverNfs|AKS:csi-driver-nfs-4.11.0.tgz|SUNAT:csi-driver-nfs-4.11.0-sunat.tgz
 VARIABLE:volumeSize|AKS:8Gi|SUNAT:90Gi
+VARIABLE:storageClassName|AKS:nfs-storage|SUNAT:storage-nfs

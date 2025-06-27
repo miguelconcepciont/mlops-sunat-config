@@ -6,7 +6,7 @@ metadata:
   labels:
     name: userdata-pv
 spec:
-  storageClassName: nfs-storage
+  storageClassName: ${storageClassName}
   accessModes:
   - ReadWriteMany
   capacity:

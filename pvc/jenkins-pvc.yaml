@@ -10,5 +10,5 @@ spec:
   resources:
     requests:
       storage: ${volumeSize}
-  storageClassName: nfs-storage
+  storageClassName: ${storageClassName}
   volumeMode: Filesystem

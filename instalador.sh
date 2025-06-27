@@ -45,7 +45,13 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 
 echo -e "${GREEN}1. Instalando NFS CSI Driver...${NC}"
-helm upgrade csi-driver-nfs-custom "charts/$csiDriverNfs" -n kube-system
+# Seleccionar valor según entorno
+if [[ "$entorno" == "AKS" ]]; then
+  helm upgrade --install csi-driver-nfs "charts/$csiDriverNfs" -n kube-system
+else
+  echo -e "${GREEN}Se salta la instalación del NFS CSI Driver...${NC}"
+fi
+
 
 echo -e "${GREEN}2. Aplicando StorageClass...${NC}"
 kubectl apply -f storageclass/nfs-storage-sc.yaml
