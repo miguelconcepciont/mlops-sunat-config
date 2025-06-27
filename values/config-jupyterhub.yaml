@@ -96,7 +96,7 @@ hub:
   extraVolumeMounts: []
   image:
     name: ${jupyterHubImage}
-    tag: ${jupyterHubImageVersion}
+    tag: "${jupyterHubImageVersion}"
     pullPolicy:
     pullSecrets: []
   resources: {}
@@ -217,7 +217,7 @@ proxy:
       # tag is automatically bumped to new patch versions by the
       # watch-dependencies.yaml workflow.
       #
-      tag: ${httpProxyImageVersion} # https://github.com/jupyterhub/configurable-http-proxy/tags
+      tag: "${httpProxyImageVersion}" # https://github.com/jupyterhub/configurable-http-proxy/tags
       pullPolicy:
       pullSecrets: []
     extraCommandLineFlags: []
@@ -270,7 +270,7 @@ proxy:
       # tag is automatically bumped to new patch versions by the
       # watch-dependencies.yaml workflow.
       #
-      tag: ${traefikImageVersion} # ref: https://hub.docker.com/_/traefik?tab=tags
+      tag: "${traefikImageVersion}" # ref: https://hub.docker.com/_/traefik?tab=tags
       pullPolicy:
       pullSecrets: []
     hsts:
@@ -317,7 +317,7 @@ proxy:
       allowPrivilegeEscalation: false
     image:
       name: ${secretSyncImage}
-      tag: ${secretSyncImageVersion}
+      tag: "${secretSyncImageVersion}"
       pullPolicy:
       pullSecrets: []
     resources: {}
@@ -357,7 +357,7 @@ singleuser:
   networkTools:
     image:
       name: ${networkToolsImage}
-      tag: ${networkToolsImageVersion}
+      tag: "${networkToolsImageVersion}"
       pullPolicy:
       pullSecrets: []
     resources: {}
@@ -413,7 +413,7 @@ singleuser:
       storageAccessModes: [ReadWriteOnce]
   image:
     name: ${singleUserImage}
-    tag: ${singleUserImageVersion}
+    tag: "${singleUserImageVersion}"
     pullPolicy: IfNotPresent
     pullSecrets: []
   startTimeout: 300
@@ -534,7 +534,7 @@ scheduling:
       # workflow, and should be updated there if a minor version bump is done
       # here.
       #
-      tag: ${kubeSchedulerImageVersion} # ref: https://github.com/kubernetes/website/blob/main/content/en/releases/patch-releases.md
+      tag: "${kubeSchedulerImageVersion}" # ref: https://github.com/kubernetes/website/blob/main/content/en/releases/patch-releases.md
       pullPolicy:
       pullSecrets: []
     nodeSelector: {}
@@ -566,7 +566,7 @@ scheduling:
       #
       # If you update this, also update prePuller.pause.image.tag
       #
-      tag: ${pauseImageVersion}
+      tag: "${pauseImageVersion}"
       pullPolicy:
       pullSecrets: []
     revisionHistoryLimit:
@@ -621,7 +621,7 @@ prePuller:
     # image and the configuration below relates to the hook-image-awaiter Job
     image:
       name: ${imageAwaiterImage}
-      tag: ${imageAwaiterImageVersion}
+      tag: "${imageAwaiterImageVersion}"
       pullPolicy:
       pullSecrets: []
     containerSecurityContext:
@@ -652,7 +652,7 @@ prePuller:
       #
       # If you update this, also update scheduling.userPlaceholder.image.tag
       #
-      tag: ${pauseImageVersion}
+      tag: "${pauseImageVersion}"
       pullPolicy:
       pullSecrets: []
 
