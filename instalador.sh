@@ -35,7 +35,7 @@ for variable in "${variables[@]}"; do
   echo "Reemplazando $variable_name por $valorvariable..."
 
   # Buscar y reemplazar en los .yaml de las carpetas indicadas
-  find pv storageclass values -type f -name "*.yaml" -exec sed -i "s|$variable_name|$valorvariable|g" {} +
+  find pv pvc storageclass values -type f -name "*.yaml" -exec sed -i "s|$variable_name|$valorvariable|g" {} +
 
 done
 
