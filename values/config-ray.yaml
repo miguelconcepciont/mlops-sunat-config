@@ -6,13 +6,13 @@
 # in this Helm chart.
 
 gcsFaultToleranceOptions:
-  redisAddress: "redis-sunat-mlops.redis.cache.windows.net:6379"
+  redisAddress: ${redisHost}
   redisPassword:
-    value: "munKsvptXrqVqTcLasiWztB4Pieg55blgAzCaMjbKNk="
+    value: ${redisPassword}
 
 image:
-  repository: miguelsff/ray
-  tag: 2.41.0-py311-sunat
+  repository: ${rayImage}
+  tag: ${rayImageVersion}
   pullPolicy: IfNotPresent
 
 nameOverride: "kuberay"

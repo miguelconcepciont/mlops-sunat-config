@@ -11,5 +11,5 @@ spec:
     storage: 8Gi
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: storagenfsmlops.privatelink.file.core.windows.net
-    path: /storagenfsmlops/nfs-share/bitnami/minio/data
+    server: ${nfsServer}
+    path: ${minioDataPath}

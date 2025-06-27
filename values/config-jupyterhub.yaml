@@ -95,8 +95,8 @@ hub:
   extraVolumes: []
   extraVolumeMounts: []
   image:
-    name: quay.io/jupyterhub/k8s-hub
-    tag: "3.3.8"
+    name: ${jupyterHubImage}
+    tag: ${jupyterHubImageVersion}
     pullPolicy:
     pullSecrets: []
   resources: {}
@@ -213,11 +213,11 @@ proxy:
       runAsGroup: 65534 # nobody group
       allowPrivilegeEscalation: false
     image:
-      name: quay.io/jupyterhub/configurable-http-proxy
+      name: ${httpProxyImage}
       # tag is automatically bumped to new patch versions by the
       # watch-dependencies.yaml workflow.
       #
-      tag: "4.6.1" # https://github.com/jupyterhub/configurable-http-proxy/tags
+      tag: ${httpProxyImageVersion} # https://github.com/jupyterhub/configurable-http-proxy/tags
       pullPolicy:
       pullSecrets: []
     extraCommandLineFlags: []
@@ -266,11 +266,11 @@ proxy:
       runAsGroup: 65534 # nobody group
       allowPrivilegeEscalation: false
     image:
-      name: traefik
+      name: ${traefikImage}
       # tag is automatically bumped to new patch versions by the
       # watch-dependencies.yaml workflow.
       #
-      tag: "v2.11.0" # ref: https://hub.docker.com/_/traefik?tab=tags
+      tag: ${traefikImageVersion} # ref: https://hub.docker.com/_/traefik?tab=tags
       pullPolicy:
       pullSecrets: []
     hsts:
@@ -316,8 +316,8 @@ proxy:
       runAsGroup: 65534 # nobody group
       allowPrivilegeEscalation: false
     image:
-      name: quay.io/jupyterhub/k8s-secret-sync
-      tag: "3.3.8"
+      name: ${secretSyncImage}
+      tag: ${secretSyncImageVersion}
       pullPolicy:
       pullSecrets: []
     resources: {}
@@ -356,8 +356,8 @@ singleuser:
     preferred: []
   networkTools:
     image:
-      name: quay.io/jupyterhub/k8s-network-tools
-      tag: "3.3.8"
+      name: ${networkToolsImage}
+      tag: ${networkToolsImageVersion}
       pullPolicy:
       pullSecrets: []
     resources: {}
@@ -402,7 +402,7 @@ singleuser:
     extraVolumes: []
     extraVolumeMounts: []
     static:
-      pvcName: jupyterhub-claim
+      pvcName: ""
       subPath: "{username}"
     capacity: 1Gi
     homeMountPath: /home/jovyan
@@ -412,8 +412,8 @@ singleuser:
       volumeNameTemplate: volume-{username}{servername}
       storageAccessModes: [ReadWriteOnce]
   image:
-    name: miguelsff/k8s-singleuser-sample
-    tag: "3.3.8-py31111-sunat"
+    name: ${singleUserImage}
+    tag: ${singleUserImageVersion}
     pullPolicy: IfNotPresent
     pullSecrets: []
   startTimeout: 300
@@ -528,13 +528,13 @@ scheduling:
       #            - If "successfully acquired lease" can be seen in the logs, it
       #              is a good sign kube-scheduler is ready to schedule pods.
       #
-      name: registry.k8s.io/kube-scheduler
+      name: ${kubeSchedulerImage}
       # tag is automatically bumped to new patch versions by the
       # watch-dependencies.yaml workflow. The minor version is pinned in the
       # workflow, and should be updated there if a minor version bump is done
       # here.
       #
-      tag: "v1.26.15" # ref: https://github.com/kubernetes/website/blob/main/content/en/releases/patch-releases.md
+      tag: ${kubeSchedulerImageVersion} # ref: https://github.com/kubernetes/website/blob/main/content/en/releases/patch-releases.md
       pullPolicy:
       pullSecrets: []
     nodeSelector: {}
@@ -560,13 +560,13 @@ scheduling:
   userPlaceholder:
     enabled: true
     image:
-      name: registry.k8s.io/pause
+      name: ${pauseImage}
       # tag is automatically bumped to new patch versions by the
       # watch-dependencies.yaml workflow.
       #
       # If you update this, also update prePuller.pause.image.tag
       #
-      tag: "3.9"
+      tag: ${pauseImageVersion}
       pullPolicy:
       pullSecrets: []
     revisionHistoryLimit:
@@ -620,8 +620,8 @@ prePuller:
     pullOnlyOnChanges: true
     # image and the configuration below relates to the hook-image-awaiter Job
     image:
-      name: quay.io/jupyterhub/k8s-image-awaiter
-      tag: "3.3.8"
+      name: ${imageAwaiterImage}
+      tag: ${imageAwaiterImageVersion}
       pullPolicy:
       pullSecrets: []
     containerSecurityContext:
@@ -646,13 +646,13 @@ prePuller:
       runAsGroup: 65534 # nobody group
       allowPrivilegeEscalation: false
     image:
-      name: registry.k8s.io/pause
+      name: ${pauseImage}
       # tag is automatically bumped to new patch versions by the
       # watch-dependencies.yaml workflow.
       #
       # If you update this, also update scheduling.userPlaceholder.image.tag
       #
-      tag: "3.9"
+      tag: ${pauseImageVersion}
       pullPolicy:
       pullSecrets: []
 
