@@ -9,5 +9,6 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 4Gi
+      storage: ${volumeSize}
   storageClassName: nfs-storage
+  volumeMode: Filesystem

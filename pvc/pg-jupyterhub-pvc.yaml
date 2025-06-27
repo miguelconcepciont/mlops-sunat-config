@@ -9,5 +9,6 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 8Gi
+      storage: ${volumeSize}
   storageClassName: nfs-storage
+  volumeMode: Filesystem

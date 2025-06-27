@@ -3,12 +3,14 @@ kind: PersistentVolume
 metadata:
   name: minio-pv
   namespace: default
+  labels:
+    name: minio-pv
 spec:
   storageClassName: nfs-storage
   accessModes:
   - ReadWriteMany
   capacity:
-    storage: 8Gi
+    storage: ${volumeSize}
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: ${nfsServer}
