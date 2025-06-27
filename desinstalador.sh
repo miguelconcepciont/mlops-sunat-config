@@ -13,7 +13,7 @@ helm uninstall minio || true
 helm uninstall jupyterhub || true
 helm uninstall postgresql-jupyterhub || true
 helm uninstall postgresql || true
-helm uninstall csi-driver-nfs -n kube-system || true
+helm uninstall csi-driver-nfs-custom -n kube-system || true
 
 echo -e "${GREEN}2. Eliminando todos los PVC...${NC}"
 kubectl delete -f pvc/ --ignore-not-found
