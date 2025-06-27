@@ -358,7 +358,7 @@ agent:
   image:
     registry: ${jenkinsAgentImageRegistry}
     repository: ${jenkinsAgentImageRepo}
-    tag: ${jenkinsAgentImageVersion}
+    tag: "${jenkinsAgentImageVersion}"
     digest: ""
     ## Specify a imagePullPolicy
     ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -943,7 +943,7 @@ volumePermissions:
   image:
     registry: ${jenkinsShellImageRegistry}
     repository: ${jenkinsShellImageRepo}
-    tag: ${jenkinsShellImageVersion}
+    tag: "${jenkinsShellImageVersion}"
     digest: ""
     pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.

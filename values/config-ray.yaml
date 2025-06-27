@@ -12,7 +12,7 @@ gcsFaultToleranceOptions:
 
 image:
   repository: ${rayImage}
-  tag: ${rayImageVersion}
+  tag: "${rayImageVersion}"
   pullPolicy: IfNotPresent
 
 nameOverride: "kuberay"
