@@ -30,7 +30,7 @@ spec:
           privileged: true
         volumeMounts:
         - name: kubelet-dir
-          mountPath: /host/var/lib/kubelet
+          mountPath: /var/lib/kubelet
       volumes:
       - name: kubelet-dir
         hostPath:
