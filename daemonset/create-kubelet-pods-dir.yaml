@@ -26,6 +26,8 @@ spec:
             chmod -R 777 /var/lib/kubelet
             echo "Proceso finalizado en $(hostname)"
             sleep 10
+        securityContext:
+          privileged: true
         volumeMounts:
         - name: kubelet-dir
           mountPath: /host/var/lib/kubelet
