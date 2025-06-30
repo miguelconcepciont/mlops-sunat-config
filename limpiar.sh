@@ -6,3 +6,5 @@ git clean -fd
 git fetch origin
 git reset --hard feature/update-to-nfs-server
 git pull
+sleep 5
+chmod 777 -R .
