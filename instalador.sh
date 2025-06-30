@@ -45,47 +45,27 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 
-# Seleccionar valor según entorno
-if [[ "$entorno" == "AKS" ]]; then
-  echo -e "${GREEN}1. Se salta la creación de carpetas para el NFS CSI Driver en los nodos ...${NC}"
-else
-  echo -e "${GREEN}1. Creando carpetas para el NFS CSI Driver en los nodos SUNAT ...${NC}"
-  kubectl delete daemonset create-kubelet-pods-dir -n kube-system --ignore-not-found
-  kubectl apply -f "daemonset/create-kubelet-pods-dir.yaml"
-  echo -e "${YELLOW}Esperando ejecución del DaemonSet...${NC}"
-  sleep 15
+echo -e "${GREEN}1. Instalando NFS CSI Driver...${NC}"
+helm upgrade --install csi-driver-nfs "charts/$csiDriverNfs" -n kube-system -f values/config-csi-driver-nfs.yaml
 
-  echo -e "${GREEN}Mostrando logs por nodo:${NC}"
-  for pod in $(kubectl get pods -n kube-system -l name=create-kubelet-pods-dir -o name); do
-    echo -e "\n--- Logs de $pod ---"
-    kubectl logs -n kube-system "$pod"
-  done
-
-  echo -e "${GREEN}Eliminando DaemonSet...${NC}"
-  kubectl delete daemonset create-kubelet-pods-dir -n kube-system
-fi
-
-echo -e "${GREEN}2. Instalando NFS CSI Driver...${NC}"
-helm upgrade --install csi-driver-nfs "charts/$csiDriverNfs" -n kube-system
-
-echo -e "${GREEN}3. Aplicando StorageClass...${NC}"
+echo -e "${GREEN}2. Aplicando StorageClass...${NC}"
 kubectl apply -f storageclass/nfs-storage-sc.yaml
 kubectl apply -f storageclass/nfs-csi-jupyterhub-sc.yaml
 sleep 5
 
-echo -e "${GREEN}4. Creando PersistentVolumes...${NC}"
+echo -e "${GREEN}3. Creando PersistentVolumes...${NC}"
 kubectl apply -f pv/
 sleep 10
 
-echo -e "${GREEN}5. Creando PersistentVolumeClaims...${NC}"
+echo -e "${GREEN}4. Creando PersistentVolumeClaims...${NC}"
 kubectl apply -f pvc/
 sleep 10
 
-echo -e "${GREEN}6. Eliminando CRDs anteriores de Ray...${NC}"
+echo -e "${GREEN}5. Eliminando CRDs anteriores de Ray...${NC}"
 kubectl delete crd rayclusters.ray.io rayjobs.ray.io rayservices.ray.io --ignore-not-found
 sleep 10
 
-echo -e "${GREEN}7. Instalando PostgreSQL...${NC}"
+echo -e "${GREEN}6. Instalando PostgreSQL...${NC}"
 
 helm upgrade --install postgresql charts/postgresql-11.9.11.tgz -f values/config-postgresql.yaml
 sleep 10 && helm status postgresql
@@ -93,23 +73,23 @@ sleep 10 && helm status postgresql
 helm upgrade --install postgresql-jupyterhub charts/postgresql-11.9.11.tgz -f values/config-postgresql-jupyterhub.yaml
 sleep 10 && helm status postgresql-jupyterhub
 
-echo -e "${GREEN}8. Instalando JupyterHub...${NC}"
+echo -e "${GREEN}7. Instalando JupyterHub...${NC}"
 helm upgrade --install jupyterhub charts/jupyterhub-3.3.8.tgz -f values/config-jupyterhub.yaml
 sleep 10 && helm status jupyterhub
 
-echo -e "${GREEN}9. Instalando MinIO...${NC}"
+echo -e "${GREEN}8. Instalando MinIO...${NC}"
 helm upgrade --install minio charts/minio-11.10.9.tgz -f values/config-minio.yaml
 sleep 10 && helm status minio
 
-echo -e "${GREEN}10. Instalando MLflow...${NC}"
+echo -e "${GREEN}9. Instalando MLflow...${NC}"
 helm upgrade --install mlflow charts/mlflow-0.18.0.tgz -f values/config-mlflow.yaml
 sleep 10 && helm status mlflow
 
-echo -e "${GREEN}11. Instalando KubeRay Operator...${NC}"
+echo -e "${GREEN}10. Instalando KubeRay Operator...${NC}"
 helm upgrade --install kuberay-operator charts/kuberay-operator-1.3.0.tgz -f values/config-kuberay-operator.yaml
 sleep 5
 
-echo -e "${GREEN}12. Instalando Ray Cluster...${NC}"
+echo -e "${GREEN}11. Instalando Ray Cluster...${NC}"
 helm upgrade --install raycluster charts/ray-cluster-1.3.0.tgz -f values/config-ray.yaml
 sleep 10 && helm status raycluster
 

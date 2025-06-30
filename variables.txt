@@ -74,4 +74,4 @@ VARIABLE:postgresJupyterhubImageVersion|AKS:14.5.0-debian-11-r31|SUNAT:latest
 VARIABLE:postgresImageRegistry|AKS:docker.io|SUNAT:vcf-np-w2-harbor-az1.sunat.peru
 VARIABLE:postgresImageRepo|AKS:bitnami/postgresql|SUNAT:rayserve/postgresql
 VARIABLE:postgresImageVersion|AKS:14.5.0-debian-11-r31|SUNAT:latest
-VARIABLE:busyboxImage|AKS:busybox|SUNAT:vcf-np-w2-harbor-az1.sunat.peru/rayserve/busybox:latest
+VARIABLE:kubeletDir|AKS:/var/lib/kubelet|SUNAT:/var/vcap/data/kubelet
