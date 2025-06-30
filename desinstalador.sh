@@ -16,7 +16,7 @@ helm uninstall postgresql || true
 helm uninstall csi-driver-nfs -n kube-system || true
 
 echo -e "${GREEN}2. Eliminando pods de usuario JupyterHub..."
-kubectl delete pod -l component=singleuser-server || true
+kubectl delete pod -l component=singleuser-server --grace-period=0 --force || true
 sleep 10
 
 echo -e "${GREEN}3. Eliminando todos los PVC...${NC}"
