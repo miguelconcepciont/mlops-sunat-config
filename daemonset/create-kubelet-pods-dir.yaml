@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: create-kubelet-pods-dir
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      name: create-kubelet-pods-dir
+  template:
+    metadata:
+      labels:
+        name: create-kubelet-pods-dir
+    spec:
+      containers:
+      - name: fix-dir
+        image: ${busyboxImage}
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            echo "Inicio en $(hostname)..."
+
+            echo "Creando carpetas..."
+            mkdir -p /var/lib/kubelet/pods
+
+            chmod -R 777 /var/lib/kubelet
+            echo "Proceso finalizado en $(hostname)"
+            sleep 10
+        volumeMounts:
+        - name: kubelet-dir
+          mountPath: /host/var/lib/kubelet
+      volumes:
+      - name: kubelet-dir
+        hostPath:
+          path: /var/lib/kubelet
+          type: DirectoryOrCreate
