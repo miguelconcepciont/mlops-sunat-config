@@ -6,7 +6,7 @@ VARIABLE:httpProxyImage|AKS:quay.io/jupyterhub/configurable-http-proxy|SUNAT:vcf
 VARIABLE:traefikImage|AKS:traefik|SUNAT:vcf-np-w2-harbor-az1.sunat.peru/mlops/traefik/traefik
 VARIABLE:secretSyncImage|AKS:quay.io/jupyterhub/k8s-secret-sync|SUNAT:vcf-np-w2-harbor-az1.sunat.peru/mlops/jupyterhub/k8s-secret-sync
 VARIABLE:networkToolsImage|AKS:quay.io/jupyterhub/k8s-network-tools|SUNAT:vcf-np-w2-harbor-az1.sunat.peru/mlops/jupyterhub/k8s-network-tools
-VARIABLE:singleUserImage|AKS:miguelsff/k8s-singleuser-sample|SUNAT:vcf-np-w2-harbor-az1.sunat.peru/mlops/miguelsff/k8s-singleuser-sample
+VARIABLE:singleUserImage|AKS:miguelsff/scipy-notebook|SUNAT:vcf-np-w2-harbor-az1.sunat.peru/mlops/miguelsff/scipy-notebook
 VARIABLE:kubeSchedulerImage|AKS:registry.k8s.io/kube-scheduler|SUNAT:vcf-np-w2-harbor-az1.sunat.peru/mlops/kube-scheduler/kube-scheduler
 VARIABLE:pauseImage|AKS:registry.k8s.io/pause|SUNAT:vcf-np-w2-harbor-az1.sunat.peru/mlops/pause/pause
 VARIABLE:imageAwaiterImage|AKS:quay.io/jupyterhub/k8s-image-awaiter|SUNAT:vcf-np-w2-harbor-az1.sunat.peru/mlops/jupyterhub/k8s-image-awaiter
@@ -19,13 +19,13 @@ VARIABLE:csiRegistrarImage|AKS:registry.k8s.io/sig-storage/csi-node-driver-regis
 VARIABLE:snapshotControllerImage|AKS:registry.k8s.io/sig-storage/snapshot-controller|SUNAT:vcf-np-w2-harbor-az1.sunat.peru/mlops/sig-storage/snapshot-controller
 VARIABLE:kuberayOperatorImageVersion|AKS:v1.3.0|SUNAT:v1.3.0
 VARIABLE:mlflowImageVersion|AKS:2.22.1|SUNAT:2.22.1
-VARIABLE:rayImageVersion|AKS:2.41.0-py311-sunat|SUNAT:2.41.0-py311-sunat
+VARIABLE:rayImageVersion|AKS:2.41.0-py311-sunat-v2|SUNAT:2.41.0-py311-sunat-v2
 VARIABLE:jupyterHubImageVersion|AKS:3.3.8|SUNAT:3.3.8
 VARIABLE:httpProxyImageVersion|AKS:4.6.1|SUNAT:4.6.1
 VARIABLE:traefikImageVersion|AKS:v2.11.0|SUNAT:v2.11.0
 VARIABLE:secretSyncImageVersion|AKS:3.3.8|SUNAT:3.3.8
 VARIABLE:networkToolsImageVersion|AKS:3.3.8|SUNAT:3.3.8
-VARIABLE:singleUserImageVersion|AKS:3.3.8-py31111-sunat|SUNAT:3.3.8-py31111-sunat
+VARIABLE:singleUserImageVersion|AKS:python-3.11-sunat-v1|SUNAT:python-3.11-sunat-v1
 VARIABLE:kubeSchedulerImageVersion|AKS:v1.26.15|SUNAT:v1.26.15
 VARIABLE:pauseImageVersion|AKS:3.9|SUNAT:3.9
 VARIABLE:imageAwaiterImageVersion|AKS:3.3.8|SUNAT:3.3.8
