@@ -21,12 +21,12 @@ sleep 10
 
 echo -e "${GREEN}3. Eliminando todos los PVC...${NC}"
 kubectl delete -f pvc/ --ignore-not-found
-kubectl get pvc --all-namespaces --no-headers | awk '{print "kubectl delete pvc", $2, "-n", $1}' | bash
+#kubectl get pvc --all-namespaces --no-headers | awk '{print "kubectl delete pvc", $2, "-n", $1}' | bash
 sleep 5
 
 echo -e "${GREEN}4. Eliminando todos los PV...${NC}"
 kubectl delete -f pv/ --ignore-not-found
-kubectl get pv --no-headers | awk '{print "kubectl delete pv", $1}' | bash
+#kubectl get pv --no-headers | awk '{print "kubectl delete pv", $1}' | bash
 sleep 5
 
 echo -e "${GREEN}5. Eliminando StorageClass 'nfs-storage-sc' y 'nfs-csi-jupyterhub-sc'...${NC}"

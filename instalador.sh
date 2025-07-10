@@ -2,13 +2,11 @@
 
 variables_txt="variables.txt"
 entorno=$(kubectl config current-context)
-csiDriverNfs="csi-driver-nfs-4.11.0.tgz"
 
 if [[ "$entorno" == *aks* ]]; then
   entorno="AKS"
 else
   entorno="SUNAT"
-  csiDriverNfs="csi-driver-nfs-4.11.0-sunat.tgz"
 fi
 
 # Leer cada línea del archivo
@@ -46,7 +44,7 @@ YELLOW='\033[0;33m'
 NC='\033[0m'
 
 echo -e "${GREEN}1. Instalando NFS CSI Driver...${NC}"
-helm upgrade --install csi-driver-nfs "charts/$csiDriverNfs" -n kube-system -f values/config-csi-driver-nfs.yaml
+helm upgrade --install csi-driver-nfs "charts/csi-driver-nfs-4.11.0.tgz" -n kube-system -f values/config-csi-driver-nfs.yaml
 
 echo -e "${GREEN}2. Aplicando StorageClass...${NC}"
 kubectl apply -f storageclass/nfs-storage-sc.yaml
