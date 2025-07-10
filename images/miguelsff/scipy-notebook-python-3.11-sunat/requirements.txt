@@ -9,6 +9,7 @@ boto3==1.39.3
 findspark==2.0.1
 protobuf==6.31.1
 git+https://github.com/gusseppe/smartdeploy.git#egg=smartdeploy
+pydantic==2.5.0
  
 # BigData cluster packages
 thrift-sasl==0.4.3
