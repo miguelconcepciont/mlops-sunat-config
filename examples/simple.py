@@ -4,7 +4,7 @@ from starlette.requests import Request
 
 # Conexión al clúster remoto
 if not ray.is_initialized():
-    ray.init(address="ray://172.179.101.87:10001")
+    ray.init(address="ray://raycluster-kuberay-head-svc:10001")
 
 serve.start(detached=True, http_options={"host": "0.0.0.0", "port": 8000})
 
