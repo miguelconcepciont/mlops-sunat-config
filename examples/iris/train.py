@@ -1,3 +1,4 @@
+# train_and_export.py
 import mlflow
 import mlflow.sklearn
 import pandas as pd
@@ -35,7 +36,8 @@ X = pd.DataFrame(iris.data, columns=[
     "sepal_length", "sepal_width", "petal_length", "petal_width"
 ])
 y = iris.target
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42)
 
 with mlflow.start_run():
     model = RandomForestClassifier(n_estimators=100, random_state=42)
