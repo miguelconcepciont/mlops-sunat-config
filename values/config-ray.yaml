@@ -5,9 +5,14 @@
 # The KubeRay community welcomes PRs to expose additional configuration
 # in this Helm chart.
 
+gcsFaultToleranceOptions:
+  redisAddress: ${redisHost}
+  redisPassword:
+    value: ${redisPassword}
+
 image:
-  repository: miguelsff/ray
-  tag: 2.41.0-py311-sunat
+  repository: ${rayImage}
+  tag: "${rayImageVersion}"
   pullPolicy: IfNotPresent
 
 nameOverride: "kuberay"
@@ -93,10 +98,10 @@ head:
     limits:
       cpu: "1"
       # To avoid out-of-memory issues, never allocate less than 2G memory for the Ray head.
-      memory: "2G"
+      memory: "4G"
     requests:
       cpu: "1"
-      memory: "2G"
+      memory: "4G"
   annotations: {}
   nodeSelector: {}
   tolerations: []

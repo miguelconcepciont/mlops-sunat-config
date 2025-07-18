@@ -93,9 +93,9 @@ diagnosticMode:
 ## @param image.debug Specify if debug values should be set
 ##
 image:
-  registry: docker.io
-  repository: bitnami/postgresql
-  tag: 14.5.0-debian-11-r31
+  registry: ${postgresJupyterhubImageRegistry}
+  repository: ${postgresJupyterhubImageRepo}
+  tag: "${postgresJupyterhubImageVersion}"
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'

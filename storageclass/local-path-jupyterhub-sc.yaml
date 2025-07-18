@@ -160,4 +160,4 @@ metadata:
     defaultVolumeType: local
 provisioner: rancher.io/local-path
 volumeBindingMode: WaitForFirstConsumer
-reclaimPolicy: Delete
+reclaimPolicy: Retain
