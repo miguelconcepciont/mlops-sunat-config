@@ -70,9 +70,9 @@ diagnosticMode:
 ## @param image.debug Enable image debug mode
 ##
 image:
-  registry: docker.io
-  repository: bitnami/jenkins
-  tag: 2.401.1-debian-11-r0
+  registry: ${jenkinsImageRegistry}
+  repository: ${jenkinsImageRepo}
+  tag: "${jenkinsImageVersion}"
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -356,10 +356,9 @@ agent:
   ## @param agent.image.debug Enable image debug mode
   ##
   image:
-    registry: docker.io
-    repository: bitnami/jenkins-agent
-               
-    tag: 0.3107.0-debian-11-r36
+    registry: ${jenkinsAgentImageRegistry}
+    repository: ${jenkinsAgentImageRepo}
+    tag: "${jenkinsAgentImageVersion}"
     digest: ""
     ## Specify a imagePullPolicy
     ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -496,7 +495,7 @@ sidecars: []
 #initContainers: []
 initContainers: #[]
 - name: init-permisos
-  image: busybox
+  image: ${jenkinsInitContainerImage}
   command: ["/bin/chown", "-R", "1000:1000", "/var/jenkins_home/"]
   volumeMounts:
     - name: "jenkins-home"
@@ -942,9 +941,9 @@ volumePermissions:
   ## @param volumePermissions.image.pullSecrets OS Shell + Utility image pull secrets
   ##
   image:
-    registry: docker.io
-    repository: bitnami/bitnami-shell
-    tag: 11-debian-11-r126
+    registry: ${jenkinsShellImageRegistry}
+    repository: ${jenkinsShellImageRepo}
+    tag: "${jenkinsShellImageVersion}"
     digest: ""
     pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.

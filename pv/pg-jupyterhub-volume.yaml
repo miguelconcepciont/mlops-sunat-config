@@ -3,20 +3,15 @@ kind: PersistentVolume
 metadata:
   name: postgres-jupyterhub-pv
   namespace: default
+  labels:
+    name: postgres-jupyterhub-pv
 spec:
-  storageClassName: local-storage
+  storageClassName: ${storageClassName}
   accessModes:
   - ReadWriteMany
   capacity:
-    storage: 8Gi
+    storage: ${volumeSize}
   persistentVolumeReclaimPolicy: Retain
-  local:
-    path: /bitnami/postgresql-jupyterhub/data
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - ${nodo1}  # ← nodo 1
+  nfs:
+    server: ${nfsServer}
+    path: ${postgresqlJupyterhubDataPath}

@@ -9,5 +9,6 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 4Gi
-  storageClassName: local-storage
+      storage: ${volumeSize}
+  storageClassName: ${storageClassName}
+  volumeMode: Filesystem
