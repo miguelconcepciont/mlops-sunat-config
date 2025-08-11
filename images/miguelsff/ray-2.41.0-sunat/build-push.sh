@@ -1,7 +1,7 @@
 #!/bin/bash
 REGISTRY=miguelsff
 IMAGE_NAME=ray
-TAG=2.41.0-py311-sunat-v2
+TAG=2.41.0-py311-sunat-v3
 
 docker build -t $REGISTRY/$IMAGE_NAME:$TAG .
 docker push $REGISTRY/$IMAGE_NAME:$TAG
