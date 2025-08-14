@@ -20,13 +20,13 @@ else
   case "$current_context" in
     deploy-Mlops-prod01|deploy-Mlops-prod02)
       redis_host="172.26.59.5"
-      redis_password="Sunat20252"
+      redis_password="Sunat2025"
       ;;
-    deploy-Mlops-Test01|deploy-Mlops-Test02)
+    deploy-Mlops-Test01|deploy-Mlops-desa01)
       redis_host="172.26.59.7"
-      redis_password="Sunat20251"
+      redis_password="Sunat2025"
       ;;
-    deploy-Mlops-User01|deploy-Mlops-User02)
+    deploy-Mlops-User01|deploy-Mlops-User02|deploy-Mlops-User03)
       redis_host="172.26.59.6"
       redis_password="Sunat2025"
       ;;
