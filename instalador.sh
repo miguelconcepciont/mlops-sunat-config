@@ -1,12 +1,40 @@
 #!/bin/bash
+set -e
+
+GREEN='\033[0;32m'
+NC='\033[0m'
 
 variables_txt="variables.txt"
-entorno=$(kubectl config current-context)
+current_context=$(kubectl config current-context)
 
-if [[ "$entorno" == *aks* ]]; then
+echo -e "${GREEN}🔹 Contexto actual: $current_context${NC}"
+
+if [[ "$current_context" == *aks* ]]; then
   entorno="AKS"
 else
   entorno="SUNAT"
+
+  redis_host="172.26.59.6"
+  redis_password="Sunat2025"
+
+  case "$current_context" in
+    deploy-Mlops-prod01|deploy-Mlops-prod02)
+      redis_host="172.26.59.5"
+      redis_password="Sunat20252"
+      ;;
+    deploy-Mlops-Test01|deploy-Mlops-Test02)
+      redis_host="172.26.59.7"
+      redis_password="Sunat20251"
+      ;;
+    deploy-Mlops-User01|deploy-Mlops-User02)
+      redis_host="172.26.59.6"
+      redis_password="Sunat2025"
+      ;;
+  esac
+
+  sed -i "s|\${clusterName}|$current_context|g" "$variables_txt"
+  sed -i "s|\${redisHost}|$redis_host|g" "$variables_txt"
+  sed -i "s|\${redisPassword}|$redis_password|g" "$variables_txt"
 fi
 
 # Leer cada línea del archivo
@@ -36,12 +64,6 @@ for variable in "${variables[@]}"; do
   find pv pvc storageclass values -type f -name "*.yaml" -exec sed -i "s|$variable_name|$valorvariable|g" {} +
 
 done
-
-set -e
-
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-NC='\033[0m'
 
 echo -e "${GREEN}1. Instalando NFS CSI Driver...${NC}"
 helm upgrade --install csi-driver-nfs "charts/csi-driver-nfs-4.11.0.tgz" -n kube-system -f values/config-csi-driver-nfs.yaml
@@ -92,3 +114,4 @@ helm upgrade --install raycluster charts/ray-cluster-1.3.0.tgz -f values/config-
 sleep 10 && helm status raycluster
 
 echo -e "${GREEN}✅ Instalación completa en $entorno.${NC}"
+echo -e "${GREEN}🔹 Contexto usado: $current_context${NC}"
