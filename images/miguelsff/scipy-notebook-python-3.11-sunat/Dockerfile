@@ -26,6 +26,15 @@ RUN sudo apt-get install -y nodejs
 RUN echo "NODE Version:" && node --version
 RUN echo "NPM Version:" && npm --version
 
+# Install OpenJDK 17
+RUN apt-get update && \
+    apt-get install -y openjdk-17-jdk && \
+    update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-17-openjdk-amd64/bin/java 1 && \
+    java -version
+
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+ENV PATH="$JAVA_HOME/bin:$PATH"
+
 # Install Elyra
 RUN  pip3 install --upgrade pip==25.1.1  && pip3 install --no-cache-dir  odh-elyra[all]==4.2.2
 RUN jupyter lab  build --dev-build=False --minimize=False
