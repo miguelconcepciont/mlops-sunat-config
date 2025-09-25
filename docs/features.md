@@ -2,10 +2,9 @@
 
 ## Estado inicial (v1.0.0)
 - **Almacenamiento**: uso de `hostPath` en pods y volúmenes efímeros, sin almacenamiento centralizado.  
-- **Base de datos**: PostgreSQL con persistencia parcial, sin respaldo automatizado.  
 - **MinIO**: sin persistencia, datos borrados al reiniciar pods.  
 - **Ray**: sin tolerancia a fallos; caída del head pod interrumpía todo el servicio.  
-- **Infraestructura**: configuraciones manuales, poca parametrización.  
+- **Instalación**: configuraciones manuales, poca parametrización.  
 - **Imágenes Docker**: uso de imágenes base genéricas, sin control de dependencias ni compatibilidad entre entornos.  
 - **Ejemplos**: no había casos completos de ciclo de vida de modelos.  
 
@@ -15,32 +14,24 @@
 - **Almacenamiento**:
   - Migración a **NFS con csi-driver-nfs** y `StorageClass` dinámicos.  
   - Persistencia total en MinIO y Ray.  
-  - Cada clúster y entorno con su propia carpeta en NFS.  
-- **Base de datos**: PostgreSQL totalmente persistente y replicable.  
+  - Cada clúster y entorno con su propia carpeta en NFS.   
 - **Ray**:
   - Configurado con **`gcsFaultToleranceOptions` y Redis** para tolerancia a fallos.  
   - APIs mantienen estado tras reinicios de pods.  
 - **MinIO**:
   - Persistencia activada (`/data` como `mountPath`).  
   - Artefactos de MLflow organizados por clúster y entorno.  
-- **Infraestructura**:
-  - Parametrización centralizada mediante `variables.txt` y `variables.xlsx`.  
-  - Scripts estandarizados (`instalar-mlops-aks.sh`, `desinstalacion-mlops-aks.sh`).  
-  - DaemonSets que crean/limpian rutas en nodos automáticamente.  
+- **Instalación**:
+  - Parametrización centralizada mediante `variables.txt`.  
+  - Scripts estandarizados (`instalador.sh`, `desinstalador.sh`).  
 - **Imágenes Docker**:
   - Imágenes propias optimizadas y alineadas:  
     - `miguelsff/ray:2.41.0-py311-sunat-v5`  
     - `miguelsff/scipy-notebook:python-3.11-sunat-v7`  
-  - Librerías adicionales para compatibilidad (ej. `category-encoders==2.8.1`).  
+  - Librerías actualizadas para compatibilidad (ej. `category-encoders==2.8.1`).  
 - **Ejemplos**:
   - Ciclo de vida completo del modelo Iris (entrenamiento ➝ despliegue ➝ test ➝ apagado).  
-  - Nuevos ejemplos `custom-v1` (código en artifactory) y `custom-v2` (serializado).  
-- **Documentación**:
-  - Guías técnicas de Redis y NFS Server.  
-  - Evidencias de despliegue en entornos de prueba, validación y producción.
-  - Guía de instalación
-  - Guía de recuperación
-  - Documentación de todas las nuevas característas acumuladas hasta la última versión
+  - Ejemplos con modelos ML personalizados: `custom-v1` (código en artifactory) y `custom-v2` (serializado).  
 
 ---
 
@@ -52,6 +43,7 @@
 - Actualizaciones de Kubernetes/Tanzu sin interrumpir servicios.  
 - Datos centralizados, respaldables y administrables de forma programada.  
 - Compatibilidad garantizada entre imágenes de entrenamiento (scipy-notebook) y despliegue (Ray).  
+
 
 ---
 
