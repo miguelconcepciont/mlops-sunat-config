@@ -93,3 +93,89 @@ bash desinstalador.sh
 ```bash
 bash instalador.sh
 ```
+#### f. Comprobar estados de pods:
+```bash
+kubectl get pods
+```
+### 3.6 Procedimiento de instalación de nueva imagen
+#### a. Enviar correo al Analista de Arquitectura
+El **Analista de DGTI** debe enviar por correo al **Analista de Arquitectura** la siguiente información:
+
+- **Nombre de la(s) nueva(s) imagen(es)** a implementar.  
+- **Etiqueta (tag)** asociada a cada imagen.  
+- **Repositorio de origen** (por ejemplo, Docker Hub).  
+- **URL de descarga** del paquete comprimido (`.zip`) correspondiente a la nueva versión del repositorio `mlops-sunat-config`.
+
+📩 **Ejemplo de mensaje:**
+
+> **Asunto:** Nueva imagen y versión disponible para despliegue MLOps-SUNAT  
+> Estimado,  
+> Se encuentra disponible la nueva imagen:  
+> Imagen 1: `<imagen_origen>:<tag>`
+> 
+> Y la nueva versión del proyecto:  
+> URL de descarga: `<url-descarga-nueva-version>`  
+>  
+> Finalmente, ejecutar los pasos 3.6.b, 3.6.c, 3.6.d, 3.6.e, 3.6.f, 3.6.g, 3.6.h del DOCUMENTO DE PASE A PRODUCCION MLOPS- HARDWARE
+>  
+> Saludos,  
+> Analista de DGTI
+
+
+#### b. Cargar en el repositorio privado de SUNAT
+El **Analista de Arquitectura** debe ejecutar los siguientes comandos en el servidor con acceso a Docker Hub y al registro privado de SUNAT:
+
+```bash
+# Descargar imagen desde Docker Hub
+docker pull <imagen_origen>:<tag>
+
+# Guardar imagen como archivo tar
+docker save -o <nombre-archivo>.tar <imagen_origen>:<tag>
+
+# Cargar imagen local
+docker load -i <nombre-archivo>.tar
+
+# Etiquetar con destino Harbor
+docker tag <imagen_origen>:<tag> vcf-np-w2-harbor-az1.sunat.peru/mlops/<imagen_destino>:<tag>
+
+# Subir imagen a Harbor
+docker push vcf-np-w2-harbor-az1.sunat.peru/mlops/<imagen_destino>:<tag>
+```
+
+> Ejemplo:  
+> `<imagen_origen>` = `miguelsff/ray`  
+> `<imagen_destino>` = `miguelsff/ray`  
+> `<tag>` = `2.41.0-py311-sunat-vX`
+
+---
+#### c. Ejecutar en **todos los clústers**
+
+> **Responsable:** Analista de Arquitectura  
+> **Requisito:** tener `kubectl` con el contexto del clúster y permisos de administrador.  
+> La **URL de la nueva versión** es la proporcionada en el correo del Analista de DGTI.
+
+#### d. Descargar nueva versión
+```bash
+wget <url-descarga-nueva-version>
+```
+#### e. Descomprimir:
+```bash
+unzip <archivo-version>.zip
+cd <carpeta-version>
+```
+#### f. Asignar permisos:
+```bash
+chmod -R 777 .
+```
+#### g. Ejecutar desinstalación:
+```bash
+bash desinstalador.sh
+```
+#### h. Ejecutar instalación:
+```bash
+bash instalador.sh
+```
+#### i. Comprobar estados de pods:
+```bash
+kubectl get pods
+```

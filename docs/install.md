@@ -172,4 +172,7 @@ chmod -R 777 .
 ```bash
 bash instalador.sh
 ```
-
+#### e. Verificar estados de pods:
+```bash
+kubectl get pods
+```

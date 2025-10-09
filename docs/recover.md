@@ -22,4 +22,8 @@ bash desinstalador.sh
 ```bash
 bash instalador.sh
 ```
+#### f. Verificar estados de pods:
+```bash
+kubectl get pods
+```
 

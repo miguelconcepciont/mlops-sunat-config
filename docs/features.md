@@ -55,8 +55,26 @@ La plataforma pasó de un **entorno experimental y efímero** (v1.0.0 con `hostP
 - **Entornos alineados** gracias a imágenes Docker optimizadas.  
 - **Ejemplos prácticos** que cubren desde entrenamientos simples hasta despliegues avanzados.  
 
-### Arquitectura de la Plataforma MLOPS - SUNAT (incluye Servidor NFS)
-<img width="1020" height="502" alt="image" src="https://github.com/user-attachments/assets/4db521b6-76e6-42b0-8111-1c8506711659" />
+### Diagrama de Arquitectura MLOps v3.3.0
+<img width="701" height="577" alt="image" src="https://github.com/user-attachments/assets/2c2611f4-8574-4c9d-97f2-93d0f774451f" />
 
-### Arquitectura Individual del Servidor NFS.
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/98cdf53a-926f-41a9-82a9-19fc1e086442" />
+#### Descripción de Componentes del Diagrama de Arquitectura MLOps v3.3.0
+##### 🗄️ Servidor NFS
+**Función:** almacenamiento centralizado y persistente compartido entre todos los clústeres.  
+**Rol en la arquitectura:** aloja las carpetas `deploy-Mlops-*` que almacenan datos, modelos, notebooks y configuraciones.  
+**Beneficio:** garantiza la persistencia y recuperación tras reinicios o fallos de pods.  
+
+##### 🧱 Clústeres (deploy-Mlops-User / desa / Test / prod)
+**Función:** representan los entornos Kubernetes donde se despliegan los servicios MLOps (Ray, MLflow, MinIO, JupyterHub).  
+**Estructura:** cada entorno (User, Desa, Test, Prod) tiene su propio clúster con pods dedicados. 
+**Beneficio:** aislamiento entre entornos, pruebas independientes y escalabilidad controlada.  
+
+##### 💾 Carpetas NFS (amarillas)
+**Función:** directorios físicos montados como volúmenes persistentes (`PersistentVolume` / `PersistentVolumeClaim`).  
+**Ejemplo:** `/bitnami/deploy-Mlops-prod01/minio/data` o `/bitnami/deploy-Mlops-User02/postgresql/data`.  
+**Beneficio:** almacenamiento distribuido pero persistente por entorno, compatible con el driver CSI-NFS.  
+
+##### ⚙️ Redis DEV / QA / PROD
+**Función:** orquestador de estado y cache distribuido para Ray y JupyterHub.  
+**Uso:** definido dinámicamente en el script según contexto (`deploy-Mlops-prod01`, `deploy-Mlops-Test01`, etc.).  
+**Beneficio:** habilita la tolerancia a fallos y persistencia del estado (`gcsFaultToleranceOptions`) de Ray, incluso tras reinicios.  
