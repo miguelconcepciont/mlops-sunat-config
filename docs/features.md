@@ -26,8 +26,8 @@
   - Scripts estandarizados (`instalador.sh`, `desinstalador.sh`).  
 - **Imágenes Docker**:
   - Imágenes propias optimizadas y alineadas:  
-    - `miguelsff/ray:2.41.0-py311-sunat-v5`  
-    - `miguelsff/scipy-notebook:python-3.11-sunat-v7`  
+    - `vcf-np-w2-harbor-az1.sunat.peru/mlops/miguelsff/ray:2.41.0-py311-sunat-v5`  
+    - `vcf-np-w2-harbor-az1.sunat.peru/mlops/miguelsff/scipy-notebook:python-3.11-sunat-v7`  
   - Librerías actualizadas para compatibilidad (ej. `category-encoders==2.8.1`).  
 - **Ejemplos**:
   - Ciclo de vida completo del modelo Iris (entrenamiento ➝ despliegue ➝ test ➝ apagado).  
