@@ -7,7 +7,7 @@ La relación de aplicativos instalados para la plataforma MLOPS- SUNAT (Ver arqu
 |-------------|---------------------------|---------|---------|
 | PostgreSQL | 11.9.11 | latest | Se emplea como componente de base de datos para registrar los metadatos (métricas y parámetros) que se enviarán al gestor del ciclo de vida del modelo. |
 | Mlflow | 0.18.0 | 2.22.1 | Gestor de datos/metadata del ciclo de vida del modelo. Rastrea experimentos, asegura reproducibilidad y automatiza tareas de ML como seguimiento, almacenamiento e implementación de modelos. |
-| Ray Cluster | 1.3.0 | 2.41.0-py311-sunat-v5 | Sirve modelos de aprendizaje automático mediante una API, permitiendo el despliegue y escalamiento en producción. |
+| Ray Cluster | 1.3.0 | 2.41.0-py311-sunat-v6 | Sirve modelos de aprendizaje automático mediante una API, permitiendo el despliegue y escalamiento en producción. |
 | MinIO | 11.10.9 | latest | Repositorio de artefactos (tablas, imágenes, modelos). Ofrece almacenamiento de objetos seguro, escalable y de alto rendimiento. |
 | JupyterHub | 3.3.8 | 3.3.8 | Herramienta para análisis de datos y ML, permite crear y compartir notebooks, gestión de usuarios, autenticación y cifrado. |
 | Jenkins | 12.2.2 | latest | Servidor de automatización para tareas de construcción, prueba, entrega o implementación de software. |
