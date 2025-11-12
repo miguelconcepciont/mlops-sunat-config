@@ -98,10 +98,10 @@ head:
     limits:
       cpu: "1"
       # To avoid out-of-memory issues, never allocate less than 2G memory for the Ray head.
-      memory: "10G"
+      memory: "6G"
     requests:
       cpu: "1"
-      memory: "10G"
+      memory: "6G"
   annotations: {}
   nodeSelector: {}
   tolerations: []
@@ -191,10 +191,10 @@ worker:
   resources:
     limits:
       cpu: "1"
-      memory: "10G"
+      memory: "6G"
     requests:
       cpu: "1"
-      memory: "10G"
+      memory: "6G"
   annotations: {}
   nodeSelector: {}
   tolerations: []
