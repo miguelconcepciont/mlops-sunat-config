@@ -1,0 +1,169 @@
+# nfs-ganesha.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nfs-server-storage
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-ganesha-data
+  namespace: nfs-server-storage
+spec:
+  accessModes: [ ReadWriteOnce ]     # solo lo monta el pod de ganesha
+  resources: { requests: { storage: 100Gi } }
+  storageClassName: standard         # o tu SC local para el PVC del server
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-ganesha
+  namespace: nfs-server-storage
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: nfs-ganesha }
+  template:
+    metadata:
+      labels: { app: nfs-ganesha }
+    spec:
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0
+      initContainers:
+      - name: prepare-dirs
+      # Crea subcarpetas y ajusta permisos
+        image: busybox:latest
+        command: ["sh","-lc"]
+        args:
+          - |
+            set -e
+            mkdir -p /exports/hubdb/data
+            mkdir -p /exports/jenkins/home
+            mkdir -p /exports/minio/data
+            mkdir -p /exports/postgresql-jupyterhub/data
+            mkdir -p /exports/postgresql/data
+            mkdir -p /exports/userdata/data
+            mkdir -p /exports/jupyterhub/data
+            chmod -R 0777 /exports
+        volumeMounts:
+          - name: data
+            mountPath: /exports
+      containers:
+      - name: ganesha
+        image: ghcr.io/roushanakhan/nfs-ganesha:latest
+        securityContext:
+          privileged: true
+        env:
+        - name: GANESHA_OPTIONS
+          value: |
+            EXPORT{
+              Export_Id=1;
+              Path="/exports/hubdb/data";
+              Pseudo="/hubdb/data";
+              Protocols=4;            # usamos NFSv4 para simplificar puertos
+              Access_Type=RW;
+              Squash=None;
+              FSAL { Name=VFS; }
+            }
+            EXPORT{
+              Export_Id=2;
+              Path="/exports/jenkins/home";
+              Pseudo="/jenkins/home";
+              Protocols=4;
+              Access_Type=RW;
+              Squash=None;
+              FSAL { Name=VFS; }
+            }
+            EXPORT{
+              Export_Id=3;
+              Path="/exports/minio/data";
+              Pseudo="/minio/data";
+              Protocols=4;
+              Access_Type=RW;
+              Squash=None;
+              FSAL { Name=VFS; }
+            }
+            EXPORT{
+              Export_Id=4;
+              Path="/exports/postgresql-jupyterhub/data";
+              Pseudo="/postgresql-jupyterhub/data";
+              Protocols=4;
+              Access_Type=RW;
+              Squash=None;
+              FSAL { Name=VFS; }
+            }
+            EXPORT{
+              Export_Id=5;
+              Path="/exports/postgresql/data";
+              Pseudo="/postgresql/data";
+              Protocols=4;
+              Access_Type=RW;
+              Squash=None;
+              FSAL { Name=VFS; }
+            }
+            EXPORT{
+              Export_Id=6;
+              Path="/exports/userdata/data";
+              Pseudo="/userdata/data";
+              Protocols=4;
+              Access_Type=RW;
+              Squash=None;
+              FSAL { Name=VFS; }
+            }
+            EXPORT{
+              Export_Id=7;
+              Path="/exports/jupyterhub/data";
+              Pseudo="/jupyterhub/data";
+              Protocols=4;
+              Access_Type=RW;
+              Squash=None;
+              FSAL { Name=VFS; }
+            }
+        ports:
+        - name: nfs
+          containerPort: 2049
+          protocol: TCP
+        - name: nfs-udp
+          containerPort: 2049
+          protocol: UDP
+        # Portmapper (111) no es necesario para v4, pero lo exponemos por compatibilidad:
+        - name: portmap
+          containerPort: 111
+          protocol: TCP
+        - name: portmap-udp
+          containerPort: 111
+          protocol: UDP
+        volumeMounts:
+          - name: data
+            mountPath: /exports
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: nfs-ganesha-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nfs-ganesha
+  namespace: nfs-server-storage
+spec:
+  type: ClusterIP
+  selector: { app: nfs-ganesha }
+  ports:
+  - name: nfs
+    port: 2049
+    targetPort: 2049
+    protocol: TCP
+  - name: nfs-udp
+    port: 2049
+    targetPort: 2049
+    protocol: UDP
+  - name: portmap
+    port: 111
+    targetPort: 111
+    protocol: TCP
+  - name: portmap-udp
+    port: 111
+    targetPort: 111
+    protocol: UDP
