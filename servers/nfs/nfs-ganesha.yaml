@@ -16,39 +16,6 @@ spec:
       storage: 100Gi
   storageClassName: standard
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: ganesha-conf
-  namespace: nfs-server-storage
-data:
-  ganesha.conf: |
-    # Config de Ganesha para exportar /exports/bitnami como /bitnami (NFSv4)
-    NFS_CORE_PARAM {
-      NFS_Protocols = 4;
-      Mount_Path_Pseudo = true;
-    }
-    EXPORT_DEFAULTS {
-      Access_Type = RW;
-      Squash = None;
-    }
-
-    # Requerido: backend de recuperación NFSv4 y carpeta persistente
-    NFSv4 {
-      RecoveryBackend = FSNG;
-      RecoveryDir     = "/var/lib/nfs/ganesha";
-      Graceless       = false;
-      DomainName      = "localdomain";
-    }
-
-    EXPORT {
-      Export_Id = 1;
-      Path = "/exports/bitnami";
-      Pseudo = "/bitnami";
-      Protocols = 4;
-      FSAL { Name = VFS; }
-    }
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -75,25 +42,17 @@ spec:
             - |
               set -e
               # Export roots
-              mkdir -p /exports/bitnami/hubdb/data
-              mkdir -p /exports/bitnami/jenkins/home
-              mkdir -p /exports/bitnami/minio/data
-              mkdir -p /exports/bitnami/postgresql-jupyterhub/data
-              mkdir -p /exports/bitnami/postgresql/data
-              mkdir -p /exports/bitnami/userdata/data
-              mkdir -p /exports/bitnami/jupyterhub/data
-              chmod -R 0777 /exports
-              # NFSv4 recovery dirs
-              mkdir -p /var/lib/nfs/ganesha
-              mkdir -p /run/ganesha
-              chmod 700 /var/lib/nfs /var/lib/nfs/ganesha || true
+              mkdir -p /export/bitnami/hubdb/data
+              mkdir -p /export/bitnami/jenkins/home
+              mkdir -p /export/bitnami/minio/data
+              mkdir -p /export/bitnami/postgresql-jupyterhub/data
+              mkdir -p /export/bitnami/postgresql/data
+              mkdir -p /export/bitnami/userdata/data
+              mkdir -p /export/bitnami/jupyterhub/data
+              chmod -R 0777 /export
           volumeMounts:
             - name: data
-              mountPath: /exports
-            - name: ganesha-varlib
-              mountPath: /var/lib/nfs
-            - name: ganesha-run
-              mountPath: /run/ganesha
+              mountPath: /export
       containers:
         - name: ganesha
           image: hectorm/nfs-ganesha:latest
@@ -108,25 +67,11 @@ spec:
               protocol: UDP
           volumeMounts:
             - name: data
-              mountPath: /exports
-            - name: ganesha-conf
-              mountPath: /etc/ganesha/ganesha.conf
-              subPath: ganesha.conf
-            - name: ganesha-varlib
-              mountPath: /var/lib/nfs
-            - name: ganesha-run
-              mountPath: /run/ganesha
+              mountPath: /export
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: nfs-ganesha-data
-        - name: ganesha-conf
-          configMap:
-            name: ganesha-conf
-        - name: ganesha-varlib
-          emptyDir: {}
-        - name: ganesha-run
-          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
