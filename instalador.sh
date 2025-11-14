@@ -115,3 +115,22 @@ sleep 10 && helm status raycluster
 
 echo -e "${GREEN}✅ Instalación completa en $entorno.${NC}"
 echo -e "${GREEN}🔹 Contexto usado: $current_context${NC}"
+
+# Port-forward solo para AKS (minikube / local)
+if [[ "$entorno" == "AKS" ]]; then
+  echo -e "${GREEN}12. Creando port-forward para acceso desde la red local...${NC}"
+
+  # MLflow -> puerto 5000
+  kubectl port-forward --address 0.0.0.0 svc/mlflow 5000:5000 >/tmp/pf-mlflow.log 2>&1 &
+
+  # JupyterHub (proxy-public) -> puerto 8080
+  kubectl port-forward --address 0.0.0.0 svc/proxy-public 8080:80 >/tmp/pf-jupyterhub.log 2>&1 &
+
+  # Ray Dashboard -> puerto 8265
+  kubectl port-forward --address 0.0.0.0 svc/raycluster-kuberay-head-svc 8265:8265 >/tmp/pf-raydash.log 2>&1 &
+
+  echo -e "${GREEN}🔹 Ahora puedes acceder desde tu LAN usando la IP de tu PC:${NC}"
+  echo -e "${GREEN}   MLflow:     http://IP_DE_TU_PC:5000${NC}"
+  echo -e "${GREEN}   JupyterHub: http://IP_DE_TU_PC:8080${NC}"
+  echo -e "${GREEN}   Ray Dash:   http://IP_DE_TU_PC:8265${NC}"
+fi
