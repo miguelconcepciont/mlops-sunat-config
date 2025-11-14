@@ -60,11 +60,11 @@ VARIABLE:jenkinsShellImageRegistry|AKS:docker.io|SUNAT:vcf-np-w2-harbor-az1.suna
 VARIABLE:jenkinsShellImageRepo|AKS:bitnami/bitnami-shell|SUNAT:rayserve/bitnami-shell
 VARIABLE:jenkinsShellImageVersion|AKS:11-debian-11-r126|SUNAT:11-r38
 VARIABLE:minioImageRegistry|AKS:docker.io|SUNAT:vcf-np-w2-harbor-az1.sunat.peru
-VARIABLE:minioImageRepo|AKS:minio/minio|SUNAT:rayserve/minio
-VARIABLE:minioImageVersion|AKS:latest|SUNAT:latest
+VARIABLE:minioImageRepo|AKS:miguelsff/minio|SUNAT:rayserve/minio
+VARIABLE:minioImageVersion|AKS:2025-debian-12|SUNAT:latest
 VARIABLE:minioClientImageRegistry|AKS:docker.io|SUNAT:vcf-np-w2-harbor-az1.sunat.peru
-VARIABLE:minioClientImageRepo|AKS:chainguard/minio-client|SUNAT:rayserve/minio
-VARIABLE:minioClientImageVersion|AKS:latest|SUNAT:2022.10.6-debian-11-r1
+VARIABLE:minioClientImageRepo|AKS:miguelsff/minio-client|SUNAT:rayserve/minio
+VARIABLE:minioClientImageVersion|AKS:2025-debian-12|SUNAT:2022.10.6-debian-11-r1
 VARIABLE:minioShellImageRegistry|AKS:docker.io|SUNAT:vcf-np-w2-harbor-az1.sunat.peru
 VARIABLE:minioShellImageRepo|AKS:bitnami/bitnami-shell|SUNAT:rayserve/minio
 VARIABLE:minioShellImageVersion|AKS:11-debian-11-r43|SUNAT:latest
