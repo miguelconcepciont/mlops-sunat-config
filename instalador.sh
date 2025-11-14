@@ -116,8 +116,8 @@ sleep 10 && helm status raycluster
 echo -e "${GREEN}✅ Instalación completa en $entorno.${NC}"
 echo -e "${GREEN}🔹 Contexto usado: $current_context${NC}"
 
-# Port-forward solo para AKS (minikube / local)
-if [[ "$entorno" == "AKS" ]]; then
+# Port-forward solo para minikube / local
+if [[ "$current_context" == "minikube" ]]; then
   echo -e "${GREEN}12. Creando port-forward para acceso desde la red local...${NC}"
 
   # MLflow -> puerto 5000
