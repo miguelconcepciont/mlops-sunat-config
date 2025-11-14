@@ -60,7 +60,7 @@ VARIABLE:jenkinsShellImageRegistry|AKS:docker.io|SUNAT:vcf-np-w2-harbor-az1.suna
 VARIABLE:jenkinsShellImageRepo|AKS:bitnami/bitnami-shell|SUNAT:rayserve/bitnami-shell
 VARIABLE:jenkinsShellImageVersion|AKS:11-debian-11-r126|SUNAT:11-r38
 VARIABLE:minioImageRegistry|AKS:docker.io|SUNAT:vcf-np-w2-harbor-az1.sunat.peru
-VARIABLE:minioImageRepo|AKS:bitnami/minio|SUNAT:rayserve/minio
+VARIABLE:minioImageRepo|AKS:minio/minio|SUNAT:rayserve/minio
 VARIABLE:minioImageVersion|AKS:latest|SUNAT:latest
 VARIABLE:minioClientImageRegistry|AKS:docker.io|SUNAT:vcf-np-w2-harbor-az1.sunat.peru
 VARIABLE:minioClientImageRepo|AKS:bitnami/minio-client|SUNAT:rayserve/minio
