@@ -9,10 +9,10 @@ current_context=$(kubectl config current-context)
 
 echo -e "${GREEN}🔹 Contexto actual: $current_context${NC}"
 
-if [[ "$current_context" == *aks* ]]; then
-  entorno="AKS"
-else
+if [[ "$current_context" == *deploy* ]]; then
   entorno="SUNAT"
+else
+  entorno="AKS"
 
   redis_host="172.26.59.6"
   redis_password="Sunat2025"
