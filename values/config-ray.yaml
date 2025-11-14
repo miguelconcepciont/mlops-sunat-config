@@ -8,7 +8,7 @@
 gcsFaultToleranceOptions:
   redisAddress: ${redisHost}
   redisPassword:
-    value: ${redisPassword}
+    value: "${redisPassword}"
 
 image:
   repository: ${rayImage}
