@@ -61,7 +61,7 @@ VARIABLE:jenkinsShellImageRepo|AKS:bitnami/bitnami-shell|SUNAT:rayserve/bitnami-
 VARIABLE:jenkinsShellImageVersion|AKS:11-debian-11-r126|SUNAT:11-r38
 VARIABLE:minioImageRegistry|AKS:docker.io|SUNAT:vcf-np-w2-harbor-az1.sunat.peru
 VARIABLE:minioImageRepo|AKS:bitnami/minio|SUNAT:rayserve/minio
-VARIABLE:minioImageVersion|AKS:2022.10.20-debian-11-r0|SUNAT:latest
+VARIABLE:minioImageVersion|AKS:latest|SUNAT:latest
 VARIABLE:minioClientImageRegistry|AKS:docker.io|SUNAT:vcf-np-w2-harbor-az1.sunat.peru
 VARIABLE:minioClientImageRepo|AKS:bitnami/minio-client|SUNAT:rayserve/minio
 VARIABLE:minioClientImageVersion|AKS:2022.10.12-debian-11-r1|SUNAT:2022.10.6-debian-11-r1
@@ -70,8 +70,8 @@ VARIABLE:minioShellImageRepo|AKS:bitnami/bitnami-shell|SUNAT:rayserve/minio
 VARIABLE:minioShellImageVersion|AKS:11-debian-11-r43|SUNAT:latest
 VARIABLE:postgresJupyterhubImageRegistry|AKS:docker.io|SUNAT:vcf-np-w2-harbor-az1.sunat.peru
 VARIABLE:postgresJupyterhubImageRepo|AKS:bitnami/postgresql|SUNAT:rayserve/postgresql
-VARIABLE:postgresJupyterhubImageVersion|AKS:14.5.0-debian-11-r31|SUNAT:latest
+VARIABLE:postgresJupyterhubImageVersion|AKS:latest|SUNAT:latest
 VARIABLE:postgresImageRegistry|AKS:docker.io|SUNAT:vcf-np-w2-harbor-az1.sunat.peru
 VARIABLE:postgresImageRepo|AKS:bitnami/postgresql|SUNAT:rayserve/postgresql
-VARIABLE:postgresImageVersion|AKS:14.5.0-debian-11-r31|SUNAT:latest
+VARIABLE:postgresImageVersion|AKS:latest|SUNAT:latest
 VARIABLE:kubeletDir|AKS:/var/lib/kubelet|SUNAT:/var/vcap/data/kubelet
