@@ -63,8 +63,8 @@ VARIABLE:minioImageRegistry|AKS:docker.io|SUNAT:vcf-np-w2-harbor-az1.sunat.peru
 VARIABLE:minioImageRepo|AKS:minio/minio|SUNAT:rayserve/minio
 VARIABLE:minioImageVersion|AKS:latest|SUNAT:latest
 VARIABLE:minioClientImageRegistry|AKS:docker.io|SUNAT:vcf-np-w2-harbor-az1.sunat.peru
-VARIABLE:minioClientImageRepo|AKS:bitnami/minio-client|SUNAT:rayserve/minio
-VARIABLE:minioClientImageVersion|AKS:2022.10.12-debian-11-r1|SUNAT:2022.10.6-debian-11-r1
+VARIABLE:minioClientImageRepo|AKS:chainguard/minio-client|SUNAT:rayserve/minio
+VARIABLE:minioClientImageVersion|AKS:latest|SUNAT:2022.10.6-debian-11-r1
 VARIABLE:minioShellImageRegistry|AKS:docker.io|SUNAT:vcf-np-w2-harbor-az1.sunat.peru
 VARIABLE:minioShellImageRepo|AKS:bitnami/bitnami-shell|SUNAT:rayserve/minio
 VARIABLE:minioShellImageVersion|AKS:11-debian-11-r43|SUNAT:latest
