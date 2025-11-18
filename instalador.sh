@@ -18,7 +18,7 @@ else
   redis_password="Sunat2025"
 
   case "$current_context" in
-    deploy-Mlops-prod01|deploy-Mlops-prod02)
+    deploy-Mlops-prod01|deploy-Mlops-produccion01|deploy-Mlops-prod02)
       redis_host="172.26.59.5"
       redis_password="Sunat2025"
       ;;
