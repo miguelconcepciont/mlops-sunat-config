@@ -11,8 +11,6 @@ echo -e "${GREEN}🔹 Contexto actual: $current_context${NC}"
 
 if [[ "$current_context" == *deploy* ]]; then
   entorno="SUNAT"
-else
-  entorno="AKS"
 
   redis_host="172.26.59.6"
   redis_password="Sunat2025"
@@ -35,6 +33,8 @@ else
   sed -i "s|\${clusterName}|$current_context|g" "$variables_txt"
   sed -i "s|\${redisHost}|$redis_host|g" "$variables_txt"
   sed -i "s|\${redisPassword}|$redis_password|g" "$variables_txt"
+else
+  entorno="AKS"
 fi
 
 # Leer cada línea del archivo
