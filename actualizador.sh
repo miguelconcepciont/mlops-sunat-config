@@ -22,29 +22,30 @@ echo -e "${GREEN}🔹 Contexto actual: $current_context${NC}"
 
 if [[ "$current_context" == *deploy* ]]; then
   entorno="SUNAT"
-else
-  entorno="AKS"
-  
-  # Configuración específica de AKS
+
   redis_host="172.26.59.6"
   redis_password="Sunat2025"
 
   case "$current_context" in
     deploy-Mlops-prod01|deploy-Mlops-produccion01|deploy-Mlops-prod02)
       redis_host="172.26.59.5"
+      redis_password="Sunat2025"
       ;;
     deploy-Mlops-Test01|deploy-Mlops-desa01)
       redis_host="172.26.59.7"
+      redis_password="Sunat2025"
       ;;
     deploy-Mlops-User01|deploy-Mlops-User02|deploy-Mlops-User03)
       redis_host="172.26.59.6"
+      redis_password="Sunat2025"
       ;;
   esac
 
-  # Actualizar variables.txt
   sed -i "s|\${clusterName}|$current_context|g" "$variables_txt"
   sed -i "s|\${redisHost}|$redis_host|g" "$variables_txt"
   sed -i "s|\${redisPassword}|$redis_password|g" "$variables_txt"
+else
+  entorno="AKS"
 fi
 
 echo -e "${GREEN}3. Procesando variables para entorno $entorno...${NC}"
