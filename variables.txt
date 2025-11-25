@@ -75,3 +75,4 @@ VARIABLE:postgresImageRegistry|AKS:docker.io|SUNAT:vcf-np-w2-harbor-az1.sunat.pe
 VARIABLE:postgresImageRepo|AKS:bitnami/postgresql|SUNAT:rayserve/postgresql
 VARIABLE:postgresImageVersion|AKS:latest|SUNAT:latest
 VARIABLE:kubeletDir|AKS:/var/lib/kubelet|SUNAT:/var/vcap/data/kubelet
+VARIABLE:minioMountPath|AKS:/bitnami/minio/data|SUNAT:/data
