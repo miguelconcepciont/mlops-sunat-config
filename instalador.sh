@@ -9,6 +9,13 @@ current_context=$(kubectl config current-context)
 
 echo -e "${GREEN}🔹 Contexto actual: $current_context${NC}"
 
+echo -e "${GREEN}🔹 Restaurando archivos de configuración de los templates...${NC}"
+cp "$variables_txt.template" "$variables_txt"
+find pv pvc storageclass values -name "*.yaml.template" | while read template; do
+    output_file="${template%.template}"
+    cp "$template" "$output_file"
+done
+
 if [[ "$current_context" == *deploy* ]]; then
   entorno="SUNAT"
 
@@ -113,11 +120,19 @@ echo -e "${GREEN}11. Instalando Ray Cluster...${NC}"
 helm upgrade --install raycluster charts/ray-cluster-1.3.0.tgz -f values/config-ray.yaml
 sleep 10 && helm status raycluster
 
+echo -e "${GREEN}🧹 Limpiando archivos de configuración generados ...${NC}"
+rm -f "$variables_txt"
+find pv pvc storageclass values -name "*.yaml.template" | while read template; do
+    output_file="${template%.template}"
+    rm -f "$output_file"
+done
+
 echo -e "${GREEN}✅ Instalación completa en $entorno.${NC}"
 echo -e "${GREEN}🔹 Contexto usado: $current_context${NC}"
 
 # Port-forward solo para minikube / local
 if [[ "$current_context" == "minikube" ]]; then
+  sleep 25
   echo -e "${GREEN}12. Creando port-forward para acceso desde la red local...${NC}"
 
   # MLflow -> puerto 5000

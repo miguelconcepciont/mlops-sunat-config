@@ -4,19 +4,16 @@ set -e
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-echo -e "${GREEN}1. Desinstalando componentes Helm...${NC}"
-helm uninstall raycluster || true
-helm uninstall jupyterhub || true
-
-echo -e "${GREEN}2. Eliminando pods de usuario JupyterHub...${NC}"
-kubectl delete pod -l component=singleuser-server --grace-period=0 --force || true
-sleep 10
-
-echo -e "${GREEN}✅ Desinstalación completada${NC}"
-
 # Configuración de variables
 variables_txt="variables.txt"
 current_context=$(kubectl config current-context)
+
+echo -e "${GREEN}🔹 Restaurando archivos de configuración de los templates...${NC}"
+cp "$variables_txt.template" "$variables_txt"
+find pv pvc storageclass values -name "*.yaml.template" | while read template; do
+    output_file="${template%.template}"
+    cp "$template" "$output_file"
+done
 
 echo -e "${GREEN}🔹 Contexto actual: $current_context${NC}"
 
@@ -70,6 +67,16 @@ for variable in "${variables[@]}"; do
   find pv pvc storageclass values -type f -name "*.yaml" -exec sed -i "s|$variable_name|$valorvariable|g" {} +
 done
 
+echo -e "${GREEN}1. Desinstalando componentes Helm...${NC}"
+helm uninstall raycluster || true
+helm uninstall jupyterhub || true
+
+echo -e "${GREEN}2. Eliminando pods de usuario JupyterHub...${NC}"
+kubectl delete pod -l component=singleuser-server --grace-period=0 --force || true
+sleep 10
+
+echo -e "${GREEN}✅ Desinstalación completada${NC}"
+
 echo -e "${GREEN}4. Instalando JupyterHub...${NC}"
 helm upgrade --install jupyterhub charts/jupyterhub-3.3.8.tgz -f values/config-jupyterhub.yaml
 sleep 10 && helm status jupyterhub
@@ -77,6 +84,13 @@ sleep 10 && helm status jupyterhub
 echo -e "${GREEN}5. Instalando Ray Cluster...${NC}"
 helm upgrade --install raycluster charts/ray-cluster-1.3.0.tgz -f values/config-ray.yaml
 sleep 10 && helm status raycluster
+
+echo -e "${GREEN}🧹 Limpiando archivos de configuración generados ...${NC}"
+rm -f "$variables_txt"
+find pv pvc storageclass values -name "*.yaml.template" | while read template; do
+    output_file="${template%.template}"
+    rm -f "$output_file"
+done
 
 echo -e "${GREEN}✅ Instalación completa en $entorno${NC}"
 echo -e "${GREEN}🔹 Contexto usado: $current_context${NC}"
