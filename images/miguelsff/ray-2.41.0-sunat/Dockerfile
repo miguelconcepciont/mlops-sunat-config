@@ -13,3 +13,5 @@ COPY requirements.txt ./
 RUN pip3 install --no-cache-dir torch==2.9.0 torchvision==0.24.0 torchaudio==2.9.0
 RUN pip3 install --no-cache-dir -r requirements.txt
 RUN rm requirements.txt
+
+COPY backup_deployment/ ./backup_deployment/

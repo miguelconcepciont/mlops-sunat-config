@@ -19,7 +19,7 @@ VARIABLE:csiRegistrarImage|AKS:registry.k8s.io/sig-storage/csi-node-driver-regis
 VARIABLE:snapshotControllerImage|AKS:registry.k8s.io/sig-storage/snapshot-controller|SUNAT:vcf-np-w2-harbor-az1.sunat.peru/mlops/sig-storage/snapshot-controller
 VARIABLE:kuberayOperatorImageVersion|AKS:v1.3.0|SUNAT:v1.3.0
 VARIABLE:mlflowImageVersion|AKS:2.22.1|SUNAT:2.22.1
-VARIABLE:rayImageVersion|AKS:2.41.0-py311-sunat-v6|SUNAT:2.41.0-py311-sunat-v6
+VARIABLE:rayImageVersion|AKS:2.41.0-py311-sunat-v7|SUNAT:2.41.0-py311-sunat-v7
 VARIABLE:jupyterHubImageVersion|AKS:3.3.8|SUNAT:3.3.8
 VARIABLE:httpProxyImageVersion|AKS:4.6.1|SUNAT:4.6.1
 VARIABLE:traefikImageVersion|AKS:v2.11.0|SUNAT:v2.11.0

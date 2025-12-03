@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-serve-deploy
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: deploy-serve
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: Always # Para asegurar que use tu nueva imagen con el script
+          
+          # Definimos el directorio de trabajo donde está tu script
+          workingDir: /backup_deployment
+
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              HEAD_SVC="{{ .Release.Name }}-head-svc"
+              
+              # 1. Esperar al Dashboard
+              echo "Esperando a Ray Dashboard en $HEAD_SVC..."
+              until ray health-check --address http://$HEAD_SVC:8265 > /dev/null 2>&1; do
+                echo "Esperando..."
+                sleep 5
+              done
+
+              # 2. Ejecutar tu script (Genera config.yaml en el directorio actual)
+              echo "Generando configuración desde MLflow..."
+              python generate_config.py
+              
+              # 3. Validar que se creó
+              if [ ! -f config.yaml ]; then
+                  echo "Error: config.yaml no fue generado."
+                  exit 1
+              fi
+
+              # 4. Desplegar
+              echo "Desplegando configuración..."
+              ray serve deploy config.yaml --address http://$HEAD_SVC:8265
+              
+              echo "Deploy completado exitosamente."
