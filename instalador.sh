@@ -101,7 +101,7 @@ helm upgrade --install postgresql-jupyterhub charts/postgresql-11.9.11.tgz -f va
 sleep 10 && helm status postgresql-jupyterhub
 
 echo -e "${GREEN}7. Instalando JupyterHub...${NC}"
-helm upgrade --install jupyterhub charts/jupyterhub-3.3.8.tgz -f values/config-jupyterhub.yaml
+helm upgrade --install jupyterhub charts/jupyterhub-3.3.8.tgz -f values/config-jupyterhub.yaml --timeout 59m0s
 sleep 10 && helm status jupyterhub
 
 echo -e "${GREEN}8. Instalando MinIO...${NC}"
@@ -117,7 +117,7 @@ helm upgrade --install kuberay-operator charts/kuberay-operator-1.3.0.tgz -f val
 sleep 5
 
 echo -e "${GREEN}11. Instalando Ray Cluster...${NC}"
-helm upgrade --install raycluster charts/ray-cluster-1.3.0.tgz -f values/config-ray.yaml
+helm upgrade --install raycluster charts/ray-cluster-1.3.0.tgz -f values/config-ray.yaml --timeout 59m0s
 sleep 10 && helm status raycluster
 
 echo -e "${GREEN}🧹 Limpiando archivos de configuración generados ...${NC}"

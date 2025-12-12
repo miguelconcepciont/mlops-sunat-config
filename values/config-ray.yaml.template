@@ -115,9 +115,14 @@ head:
   volumes:
     - name: log-volume
       emptyDir: {}
+    - name: backup-persistence
+      persistentVolumeClaim:
+        claimName: hub-db-claim
   volumeMounts:
     - mountPath: /tmp/ray
       name: log-volume
+    - mountPath: /home/ray/backup_deployment
+      name: backup-persistence
   # sidecarContainers specifies additional containers to attach to the Ray pod.
   # Follows standard K8s container spec.
   sidecarContainers: []

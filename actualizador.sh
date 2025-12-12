@@ -69,20 +69,11 @@ done
 
 echo -e "${GREEN}1. Desinstalando componentes Helm...${NC}"
 helm uninstall raycluster || true
-helm uninstall jupyterhub || true
-
-echo -e "${GREEN}2. Eliminando pods de usuario JupyterHub...${NC}"
-kubectl delete pod -l component=singleuser-server --grace-period=0 --force || true
-sleep 10
 
 echo -e "${GREEN}✅ Desinstalación completada${NC}"
 
-echo -e "${GREEN}4. Instalando JupyterHub...${NC}"
-helm upgrade --install jupyterhub charts/jupyterhub-3.3.8.tgz -f values/config-jupyterhub.yaml
-sleep 10 && helm status jupyterhub
-
 echo -e "${GREEN}5. Instalando Ray Cluster...${NC}"
-helm upgrade --install raycluster charts/ray-cluster-1.3.0.tgz -f values/config-ray.yaml
+helm upgrade --install raycluster charts/ray-cluster-1.3.0.tgz -f values/config-ray.yaml --timeout 59m0s
 sleep 10 && helm status raycluster
 
 echo -e "${GREEN}🧹 Limpiando archivos de configuración generados ...${NC}"

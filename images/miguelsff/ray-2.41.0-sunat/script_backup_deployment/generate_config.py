@@ -67,14 +67,18 @@ for config in config_list:
     run_id = config.get("run_id")
 
     # 7. Construir el import_path dinámico
-    # Formato: /<RUN_ID>/deployment/<MODULE_NAME>:entrypoint
-    import_path = f"/{run_id}/deployment/{module_name}:entrypoint"
+    full_dir_path = os.path.join(os.getcwd(), run_id, "deployment")
 
     # 8. Crear diccionario de la aplicación
     app_entry = {
         "name": config.get("app_name"),
         "route_prefix": config.get("route_prefix"),
-        "import_path": import_path
+        "import_path": f"{module_name}:entrypoint",
+        "runtime_env": {
+            "env_vars": {
+                "PYTHONPATH": full_dir_path
+            }
+        }
     }
 
     yaml_data["applications"].append(app_entry)
