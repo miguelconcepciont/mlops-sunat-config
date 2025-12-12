@@ -117,7 +117,7 @@ helm upgrade --install kuberay-operator charts/kuberay-operator-1.3.0.tgz -f val
 sleep 5
 
 echo -e "${GREEN}11. Instalando Ray Cluster...${NC}"
-helm package charts/ray-cluster-1.3.0
+cd charts && helm package ray-cluster-1.3.0 && cd ..
 sleep 2
 helm upgrade --install raycluster charts/ray-cluster-1.3.0.tgz -f values/config-ray.yaml --timeout 59m0s
 sleep 10 && helm status raycluster

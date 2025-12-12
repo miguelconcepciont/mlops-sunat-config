@@ -73,6 +73,8 @@ helm uninstall raycluster || true
 echo -e "${GREEN}✅ Desinstalación completada${NC}"
 
 echo -e "${GREEN}5. Instalando Ray Cluster...${NC}"
+cd charts && helm package ray-cluster-1.3.0 && cd ..
+sleep 2
 helm upgrade --install raycluster charts/ray-cluster-1.3.0.tgz -f values/config-ray.yaml --timeout 59m0s
 sleep 10 && helm status raycluster
 
