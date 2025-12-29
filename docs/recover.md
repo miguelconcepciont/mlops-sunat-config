@@ -1,9 +1,9 @@
 # Instructivo de Recuperación – Plataforma MLOps SUNAT (v3.3.0)
 
 ### 1. Recuperación del Stack MLOps SUNAT
-#### a. Descargar la versión v3.3.0:
+#### a. Descargar la versión v3.3.0  (Reemplazar <url-descarga-v3.3.0> por la URL donde está ubicada el archivo v3.3.0.zip):
 ```bash
-wget https://github.com/miguelconcepciont/mlops-sunat-config/archive/refs/tags/v3.3.0.zip
+wget <url-descarga-v3.3.0>
 ```
 #### b. Descomprimir:
 ```bash
@@ -21,5 +21,9 @@ bash desinstalador.sh
 #### e. Ejecutar instalación:
 ```bash
 bash instalador.sh
+```
+#### f. Verificar estados de pods:
+```bash
+kubectl get pods
 ```
 

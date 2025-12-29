@@ -9,16 +9,21 @@ current_context=$(kubectl config current-context)
 
 echo -e "${GREEN}🔹 Contexto actual: $current_context${NC}"
 
-if [[ "$current_context" == *aks* ]]; then
-  entorno="AKS"
-else
+echo -e "${GREEN}🔹 Restaurando archivos de configuración de los templates...${NC}"
+cp "$variables_txt.template" "$variables_txt"
+find pv pvc storageclass values -name "*.yaml.template" | while read template; do
+    output_file="${template%.template}"
+    cp "$template" "$output_file"
+done
+
+if [[ "$current_context" == *deploy* ]]; then
   entorno="SUNAT"
 
   redis_host="172.26.59.6"
   redis_password="Sunat2025"
 
   case "$current_context" in
-    deploy-Mlops-prod01|deploy-Mlops-prod02)
+    deploy-Mlops-prod01|deploy-Mlops-produccion01|deploy-Mlops-prod02)
       redis_host="172.26.59.5"
       redis_password="Sunat2025"
       ;;
@@ -35,6 +40,8 @@ else
   sed -i "s|\${clusterName}|$current_context|g" "$variables_txt"
   sed -i "s|\${redisHost}|$redis_host|g" "$variables_txt"
   sed -i "s|\${redisPassword}|$redis_password|g" "$variables_txt"
+else
+  entorno="AKS"
 fi
 
 # Leer cada línea del archivo
@@ -94,7 +101,7 @@ helm upgrade --install postgresql-jupyterhub charts/postgresql-11.9.11.tgz -f va
 sleep 10 && helm status postgresql-jupyterhub
 
 echo -e "${GREEN}7. Instalando JupyterHub...${NC}"
-helm upgrade --install jupyterhub charts/jupyterhub-3.3.8.tgz -f values/config-jupyterhub.yaml
+helm upgrade --install jupyterhub charts/jupyterhub-3.3.8.tgz -f values/config-jupyterhub.yaml --timeout 59m0s
 sleep 10 && helm status jupyterhub
 
 echo -e "${GREEN}8. Instalando MinIO...${NC}"
@@ -110,8 +117,38 @@ helm upgrade --install kuberay-operator charts/kuberay-operator-1.3.0.tgz -f val
 sleep 5
 
 echo -e "${GREEN}11. Instalando Ray Cluster...${NC}"
-helm upgrade --install raycluster charts/ray-cluster-1.3.0.tgz -f values/config-ray.yaml
+cd charts && helm package ray-cluster-1.3.0 && cd ..
+sleep 2
+helm upgrade --install raycluster charts/ray-cluster-1.3.0.tgz -f values/config-ray.yaml --timeout 59m0s
+rm -rf charts/ray-cluster-1.3.0.tgz
 sleep 10 && helm status raycluster
+
+echo -e "${GREEN}🧹 Limpiando archivos de configuración generados ...${NC}"
+rm -f "$variables_txt"
+find pv pvc storageclass values -name "*.yaml.template" | while read template; do
+    output_file="${template%.template}"
+    rm -f "$output_file"
+done
 
 echo -e "${GREEN}✅ Instalación completa en $entorno.${NC}"
 echo -e "${GREEN}🔹 Contexto usado: $current_context${NC}"
+
+# Port-forward solo para minikube / local
+if [[ "$current_context" == "minikube" ]]; then
+  sleep 25
+  echo -e "${GREEN}12. Creando port-forward para acceso desde la red local...${NC}"
+
+  # MLflow -> puerto 5000
+  kubectl port-forward --address 0.0.0.0 svc/mlflow 5000:5000 >/tmp/pf-mlflow.log 2>&1 &
+
+  # JupyterHub (proxy-public) -> puerto 8080
+  kubectl port-forward --address 0.0.0.0 svc/proxy-public 8080:80 >/tmp/pf-jupyterhub.log 2>&1 &
+
+  # Ray Dashboard -> puerto 8265
+  kubectl port-forward --address 0.0.0.0 svc/raycluster-kuberay-head-svc 8265:8265 >/tmp/pf-raydash.log 2>&1 &
+
+  echo -e "${GREEN}🔹 Ahora puedes acceder desde tu LAN usando la IP de tu PC:${NC}"
+  echo -e "${GREEN}   MLflow:     http://IP_DE_TU_PC:5000${NC}"
+  echo -e "${GREEN}   JupyterHub: http://IP_DE_TU_PC:8080${NC}"
+  echo -e "${GREEN}   Ray Dash:   http://IP_DE_TU_PC:8265${NC}"
+fi
