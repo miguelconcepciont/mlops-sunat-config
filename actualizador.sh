@@ -69,35 +69,15 @@ done
 
 echo -e "${GREEN}1. Desinstalando componentes Helm...${NC}"
 helm uninstall raycluster || true
-helm uninstall kuberay-operator || true
-helm uninstall mlflow || true
-helm uninstall minio || true
-helm uninstall jupyterhub || true
-helm uninstall postgresql-jupyterhub || true
-helm uninstall postgresql || true
-helm uninstall csi-driver-nfs -n kube-system || true
 
-echo -e "${GREEN}2. Eliminando pods de usuario JupyterHub..."
-kubectl delete pod -l component=singleuser-server --grace-period=0 --force || true
-sleep 10
+echo -e "${GREEN}✅ Desinstalación completada${NC}"
 
-echo -e "${GREEN}3. Eliminando todos los PVC...${NC}"
-kubectl delete -f pvc/ --ignore-not-found
-#kubectl get pvc --all-namespaces --no-headers | awk '{print "kubectl delete pvc", $2, "-n", $1}' | bash
-sleep 5
-
-echo -e "${GREEN}4. Eliminando todos los PV...${NC}"
-kubectl delete -f pv/ --ignore-not-found
-#kubectl get pv --no-headers | awk '{print "kubectl delete pv", $1}' | bash
-sleep 5
-
-echo -e "${GREEN}5. Eliminando StorageClass 'nfs-storage-sc' y 'nfs-csi-jupyterhub-sc'...${NC}"
-kubectl delete -f storageclass/nfs-storage-sc.yaml --ignore-not-found
-kubectl delete -f storageclass/nfs-csi-jupyterhub-sc.yaml --ignore-not-found
-sleep 3
-
-echo -e "${GREEN}6. Eliminando CRDs de Ray...${NC}"
-kubectl delete crd rayclusters.ray.io rayjobs.ray.io rayservices.ray.io --ignore-not-found
+echo -e "${GREEN}5. Instalando Ray Cluster...${NC}"
+cd charts && helm package ray-cluster-1.3.0 && cd ..
+sleep 2
+helm upgrade --install raycluster charts/ray-cluster-1.3.0.tgz -f values/config-ray.yaml --timeout 59m0s
+rm -rf charts/ray-cluster-1.3.0.tgz
+sleep 10 && helm status raycluster
 
 echo -e "${GREEN}🧹 Limpiando archivos de configuración generados ...${NC}"
 rm -f "$variables_txt"
@@ -106,4 +86,5 @@ find pv pvc storageclass values -name "*.yaml.template" | while read template; d
     rm -f "$output_file"
 done
 
-echo -e "${GREEN}✅ Desinstalación completada correctamente.${NC}"
+echo -e "${GREEN}✅ Instalación completa en $entorno${NC}"
+echo -e "${GREEN}🔹 Contexto usado: $current_context${NC}"

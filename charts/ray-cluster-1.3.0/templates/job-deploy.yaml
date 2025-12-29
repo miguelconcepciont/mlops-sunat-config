@@ -1,0 +1,74 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-serve-deploy
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded,hook-failed
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: deploy-serve
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: Always
+          workingDir: /home/ray/script_backup_deployment
+          # 1. Montar el volumen
+          volumeMounts:
+            - mountPath: /home/ray/backup_deployment # CUIDADO: Esto ocultará generate_config.py si el PVC está vacío
+              name: backup-persistence
+
+          env:
+            - name: MLFLOW_TRACKING_URI
+              value: "http://mlflow.default.svc.cluster.local:5000"
+            - name: MLFLOW_S3_ENDPOINT_URL
+              value: "http://minio.default.svc.cluster.local:9000"
+            - name: AWS_ACCESS_KEY_ID
+              value: "minio"
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "minio123"
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              HEAD_SVC="{{ .Release.Name }}-kuberay-head-svc"
+              cd /home/ray/script_backup_deployment || exit 1
+
+              rm -rf /home/ray/backup_deployment/*
+              
+              cp -av /home/ray/script_backup_deployment/* /home/ray/backup_deployment/
+
+              cd /home/ray/backup_deployment || exit 1
+
+              echo "Directorio de trabajo: $(pwd)"
+              ls -la 
+
+
+              echo "Esperando a Ray GCS en $HEAD_SVC..."
+              until ray health-check --address $HEAD_SVC:6379 > /dev/null 2>&1; do
+                echo "Esperando..."
+                sleep 5
+              done
+
+              echo "Generando configuración..."
+              # Si el PVC ocultó el script, este paso fallará
+              python generate_config.py
+              
+              if [ ! -f config.yaml ]; then
+                  echo "Error: config.yaml no fue generado."
+                  exit 1
+              fi
+
+              echo "Esperando Dashboard de Ray en $HEAD_SVC:8265..."
+              until curl -s http://$HEAD_SVC:8265/api/ray/version > /dev/null; do
+                echo "Dashboard aún no disponible..."
+                sleep 5
+              done
+              
+              echo "Desplegando configuración..."
+              serve deploy config.yaml --address http://$HEAD_SVC:8265
+              echo "Deploy completado exitosamente."
+      volumes:
+        - name: backup-persistence
+          persistentVolumeClaim:
+            claimName: hub-db-claim

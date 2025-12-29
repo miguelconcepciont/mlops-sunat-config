@@ -16,6 +16,9 @@ USER root
 ENV JUPYTER_ENABLE_LAB=yes
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
+    build-essential \
+    gcc \
+    g++ \
     curl && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -49,6 +52,7 @@ RUN fix-permissions $CONDA_DIR/share/jupyter
 #  Install python packages
 COPY requirements.txt ./
 RUN pip uninstall -y ortools
+RUN pip3 install --no-cache-dir torch==2.9.0 torchvision==0.24.0 torchaudio==2.9.0
 RUN pip3 install -r requirements.txt
 RUN apt-get clean && rm requirements.txt
 
