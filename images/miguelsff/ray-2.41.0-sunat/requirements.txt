@@ -30,7 +30,7 @@ grpcio==1.74.0
 multidict==6.6.4
 opencensus==0.11.4
 packaging==23.2
-pandas==2.1.1
+pandas==2.2.3
 pip==25.1.1
 pluggy==1.6.0
 py-spy==0.4.1
@@ -54,7 +54,7 @@ imbalanced-learn==0.14.0
 catboost==1.2.8
 dask==2025.10.0
 fastparquet==2024.11.0
-gensim==4.3.3
+gensim==4.4.0
 hyperopt==0.2.7
 keras==3.11.3
 lightgbm==4.6.0
@@ -84,3 +84,16 @@ torch-cluster==1.6.3
 torch-scatter==2.1.2
 torch-sparse==0.6.18
 torch-spline-conv==1.2.2
+
+numpy==2.0.2
+matplotlib==3.9.4
+
+langchain==1.0.2
+langchain-community==0.4.1
+langchain-core==1.0.1
+langchainhub==0.1.21
+langgraph==1.0.1
+tiktoken==0.12.0
+qdrant-client==1.15.1
+
+pydantic==2.12.5
