@@ -64,7 +64,7 @@ torch-sparse==0.6.18
 torch-spline-conv==1.2.2
 
 pandas==2.2.3
-numpy==2.0.2
+numpy==1.26.4
 matplotlib==3.9.4
 
 langchain==1.0.2
