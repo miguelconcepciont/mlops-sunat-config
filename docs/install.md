@@ -180,7 +180,7 @@ El script `build-push.sh` ubicado en el directorio de la imagen contiene las var
 ```bash
 REGISTRY=miguelsff
 IMAGE_NAME=ray
-TAG=2.41.0-py311-sunat-v8.1
+TAG=2.41.0-py311-sunat-v8.2
 ```
 
 Para construir y publicar la imagen:
@@ -208,7 +208,7 @@ El script `build-push.sh` ubicado en el directorio de la imagen contiene las var
 ```bash
 REGISTRY=miguelsff
 IMAGE_NAME=scipy-notebook
-TAG=python-3.11-sunat-v9.1
+TAG=python-3.11-sunat-v9.2
 ```
 
 Para construir y publicar la imagen:
@@ -235,38 +235,38 @@ Una vez construidas y publicadas en Docker Hub, las imagenes deben transferirse 
 
 ```bash
 # 1. Descargar imagen desde Docker Hub
-docker pull miguelsff/ray:2.41.0-py311-sunat-v8.1
+docker pull miguelsff/ray:2.41.0-py311-sunat-v8.2
 
 # 2. Guardar imagen como archivo tar para transferencia offline
-docker save -o miguelsff-ray-2.41.0-py311-sunat-v8.1.tar miguelsff/ray:2.41.0-py311-sunat-v8.1
+docker save -o miguelsff-ray-2.41.0-py311-sunat-v8.2.tar miguelsff/ray:2.41.0-py311-sunat-v8.2
 
 # 3. Cargar imagen en el entorno local de destino
-docker load -i miguelsff-ray-2.41.0-py311-sunat-v8.1.tar
+docker load -i miguelsff-ray-2.41.0-py311-sunat-v8.2.tar
 
 # 4. Etiquetar con destino al repositorio Harbor SUNAT
-docker tag miguelsff/ray:2.41.0-py311-sunat-v8.1 vcf-np-w2-harbor-az1.sunat.peru/mlops/miguelsff/ray:2.41.0-py311-sunat-v8.1
+docker tag miguelsff/ray:2.41.0-py311-sunat-v8.2 vcf-np-w2-harbor-az1.sunat.peru/mlops/miguelsff/ray:2.41.0-py311-sunat-v8.2
 
 # 5. Subir imagen al repositorio Harbor SUNAT
-docker push vcf-np-w2-harbor-az1.sunat.peru/mlops/miguelsff/ray:2.41.0-py311-sunat-v8.1
+docker push vcf-np-w2-harbor-az1.sunat.peru/mlops/miguelsff/ray:2.41.0-py311-sunat-v8.2
 ```
 
 #### b. Imagen Scipy Notebook
 
 ```bash
 # 1. Descargar imagen desde Docker Hub
-docker pull miguelsff/scipy-notebook:python-3.11-sunat-v9.1
+docker pull miguelsff/scipy-notebook:python-3.11-sunat-v9.2
 
 # 2. Guardar imagen como archivo tar para transferencia offline
-docker save -o miguelsff-scipy-notebook-python-3.11-sunat-v9.1.tar miguelsff/scipy-notebook:python-3.11-sunat-v9.1
+docker save -o miguelsff-scipy-notebook-python-3.11-sunat-v9.2.tar miguelsff/scipy-notebook:python-3.11-sunat-v9.2
 
 # 3. Cargar imagen en el entorno local de destino
-docker load -i miguelsff-scipy-notebook-python-3.11-sunat-v9.1.tar
+docker load -i miguelsff-scipy-notebook-python-3.11-sunat-v9.2.tar
 
 # 4. Etiquetar con destino al repositorio Harbor SUNAT
-docker tag miguelsff/scipy-notebook:python-3.11-sunat-v9.1 vcf-np-w2-harbor-az1.sunat.peru/mlops/miguelsff/scipy-notebook:python-3.11-sunat-v9.1
+docker tag miguelsff/scipy-notebook:python-3.11-sunat-v9.2 vcf-np-w2-harbor-az1.sunat.peru/mlops/miguelsff/scipy-notebook:python-3.11-sunat-v9.2
 
 # 5. Subir imagen al repositorio Harbor SUNAT
-docker push vcf-np-w2-harbor-az1.sunat.peru/mlops/miguelsff/scipy-notebook:python-3.11-sunat-v9.1
+docker push vcf-np-w2-harbor-az1.sunat.peru/mlops/miguelsff/scipy-notebook:python-3.11-sunat-v9.2
 ```
 
 ---
